@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--PR info-->
+    <TextView
+        android:id="@+id/instructions"
+        style="@style/LargeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="@string/select_pull_request" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/pull_request_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/refresh_prs"
+        android:layout_below="@id/instructions"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+    <!--Hidden loading view-->
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+    <!--Bottom Buttons-->
+    <Button
+        android:id="@+id/refresh_prs"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:padding="10dp"
+        android:text="@string/refresh_pull_requests" />
+
+
+</RelativeLayout>

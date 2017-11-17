@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Github PR Checker</string>
+    <string name="activity_pull_requests">Pull Requests</string>
+    <string name="activity_pr_diff">Diff</string>
+
+    <!--List-->
+    <string name="select_pull_request">Select a Pull Request</string>
+    <string name="refresh_pull_requests">Refresh Pull Requests</string>
+    <string name="pr_content">#%d created at %s by %s</string>
+
+    <!--Diff-->
+</resources>
