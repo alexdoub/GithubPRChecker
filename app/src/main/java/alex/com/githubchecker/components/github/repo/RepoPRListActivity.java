@@ -1,4 +1,4 @@
-package alex.com.githubchecker.components.github.activities;
+package alex.com.githubchecker.components.github.repo;
 
 import android.os.Bundle;
 
@@ -6,16 +6,14 @@ import javax.inject.Inject;
 
 import alex.com.githubchecker.components.app.BaseActivity;
 import alex.com.githubchecker.components.app.GithubCheckerApp;
-import alex.com.githubchecker.components.github.repo.GithubModel;
-import alex.com.githubchecker.components.github.repo.RepoPRListView;
-import alex.com.githubchecker.components.github.repo.RepoPRListPresenter;
+import alex.com.githubchecker.models.dagger.GithubModel;
 import butterknife.ButterKnife;
 
 /**
  * Created by Alex on 11/17/2017.
  */
 
-public class PRListActivity extends BaseActivity {
+public class RepoPRListActivity extends BaseActivity {
 
     RepoPRListView view;
     RepoPRListPresenter presenter;

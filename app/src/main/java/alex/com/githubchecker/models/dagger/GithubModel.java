@@ -1,10 +1,10 @@
-package alex.com.githubchecker.components.github.repo;
+package alex.com.githubchecker.models.dagger;
 
 import java.util.List;
 
 import alex.com.githubchecker.components.app.api.APIClient;
-import alex.com.githubchecker.components.app.api.model.Diff;
-import alex.com.githubchecker.components.app.api.model.PullRequest;
+import alex.com.githubchecker.models.Diff;
+import alex.com.githubchecker.models.api.PullRequest;
 import alex.com.githubchecker.utils.SchedulerUtils;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
@@ -23,14 +23,14 @@ public class GithubModel {
         pullRequestsSubject = BehaviorSubject.create();
     }
 
-    void getPullRequests() {
+    public void getPullRequests() {
         apiClient.getPullRequests()
                 .observeOn(SchedulerUtils.main())
                 .subscribe(pullRequestsSubject::onNext);
     }
 
 
-    BehaviorSubject<List<PullRequest>> getPullRequestsSubject() {
+    public BehaviorSubject<List<PullRequest>> getPullRequestsSubject() {
         return pullRequestsSubject;
     }
 

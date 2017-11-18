@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import alex.com.githubchecker.R;
-import alex.com.githubchecker.components.app.api.model.PullRequest;
+import alex.com.githubchecker.models.api.PullRequest;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.subjects.PublishSubject;

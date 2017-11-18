@@ -3,8 +3,8 @@ package alex.com.githubchecker.components.app.api;
 import java.io.IOException;
 import java.util.List;
 
-import alex.com.githubchecker.components.app.api.model.Diff;
-import alex.com.githubchecker.components.app.api.model.PullRequest;
+import alex.com.githubchecker.models.Diff;
+import alex.com.githubchecker.models.api.PullRequest;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import okhttp3.Call;

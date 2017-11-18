@@ -2,8 +2,7 @@ package alex.com.githubchecker.components.app.api;
 
 import java.util.List;
 
-import alex.com.githubchecker.components.app.api.model.Diff;
-import alex.com.githubchecker.components.app.api.model.PullRequest;
+import alex.com.githubchecker.models.api.PullRequest;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

@@ -1,6 +1,7 @@
 package alex.com.githubchecker.components.github.repo;
 
-import alex.com.githubchecker.components.github.activities.PRDiffActivity;
+import alex.com.githubchecker.models.dagger.GithubModel;
+import alex.com.githubchecker.components.github.pullrequest.PRDiffPresenter;
 import alex.com.githubchecker.utils.SchedulerUtils;
 
 /**
@@ -38,7 +39,7 @@ public class RepoPRListPresenter {
     }
 
     private void pullRequestTapped(Integer pullrequestId) {
-        PRDiffActivity.Show(view.view().getContext(), pullrequestId);
+        PRDiffPresenter.PRDiffActivity.Show(view.view().getContext(), pullrequestId);
     }
 
     private void refreshPullRequests() {

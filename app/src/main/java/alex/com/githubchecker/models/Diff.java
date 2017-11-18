@@ -1,0 +1,97 @@
+package alex.com.githubchecker.models;
+
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.BackgroundColorSpan;
+
+import timber.log.Timber;
+
+/**
+ * Created by Alex on 11/17/2017.
+ */
+
+public class Diff {
+
+    private static String KEY_META_DIFF = "diff";
+    private static String KEY_META_INDEX = "index";
+    private static String KEY_META_SUBTRACTION = "---";
+    private static String KEY_META_ADDITION = "+++";
+    private static String KEY_META_LINE = "@@";
+    private static char KEY_ADDITION = '+';
+    private static char KEY_SUBTRACTION = '-';
+
+    private SpannableStringBuilder additions;
+    private SpannableStringBuilder subtractions;
+
+    private Diff(SpannableStringBuilder additions, SpannableStringBuilder subtractions) {
+        this.additions = additions;
+        this.subtractions = subtractions;
+    }
+
+    public static Diff Parse(String content) {
+
+        String[] contentArr = content.split("\n");
+        Timber.d("Diff parsed content of length: " + content.length() + " into " + contentArr.length + " lines");
+
+        SpannableStringBuilder additionsBuilder = new SpannableStringBuilder("");
+        SpannableStringBuilder subtractionsBuilder = new SpannableStringBuilder("");
+
+        boolean currentlyInMetadataBlock = true;
+        for (String str : contentArr) {
+
+            //Metadata header start tag
+            if (str.startsWith(KEY_META_DIFF)) {
+                currentlyInMetadataBlock = true;
+            }
+
+            //Content in metadata header
+            else if (currentlyInMetadataBlock) {
+                if (str.startsWith(KEY_META_INDEX)) {
+                    //ignore index metadata
+                }
+                //Add filename to corresponding side
+                else if (str.startsWith(KEY_META_SUBTRACTION)) {
+
+                    subtractionsBuilder.append(str, new BackgroundColorSpan(Color.TRANSPARENT), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    subtractionsBuilder.append("\n", new BackgroundColorSpan(Color.TRANSPARENT), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                } else if (str.startsWith(KEY_META_ADDITION)) {
+                    additionsBuilder.append(str, new BackgroundColorSpan(Color.TRANSPARENT), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    additionsBuilder.append("\n", new BackgroundColorSpan(Color.TRANSPARENT), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    currentlyInMetadataBlock = false;
+                }
+            }
+
+            //Inter-appearing metadata line tags
+            else if (str.startsWith(KEY_META_LINE)) {
+                //Ignore line metadata
+            }
+
+            //Not in metadata block, handle line as content
+            else {
+                if (str.charAt(0) == KEY_SUBTRACTION) {
+                    subtractionsBuilder.append(str, new BackgroundColorSpan(Color.RED), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                } else if (str.charAt(0) == KEY_ADDITION) {
+                    additionsBuilder.append(str, new BackgroundColorSpan(Color.GREEN), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                } else {
+                    subtractionsBuilder.append(str, new BackgroundColorSpan(Color.TRANSPARENT), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    additionsBuilder.append(str, new BackgroundColorSpan(Color.TRANSPARENT), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                }
+
+                subtractionsBuilder.append("\n", new BackgroundColorSpan(Color.TRANSPARENT), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                additionsBuilder.append("\n", new BackgroundColorSpan(Color.TRANSPARENT), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            }
+        }
+
+        return new Diff(additionsBuilder, subtractionsBuilder);
+    }
+
+    public SpannableStringBuilder getAdditionsSpan() {
+        return additions;
+    }
+
+    public SpannableStringBuilder getSubtractionsSpan() {
+        return subtractions;
+    }
+
+}

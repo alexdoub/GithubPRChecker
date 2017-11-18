@@ -1,7 +1,7 @@
 package alex.com.githubchecker.components.github.dagger;
 
 import alex.com.githubchecker.components.app.api.APIClient;
-import alex.com.githubchecker.components.github.repo.GithubModel;
+import alex.com.githubchecker.models.dagger.GithubModel;
 import dagger.Module;
 import dagger.Provides;
 

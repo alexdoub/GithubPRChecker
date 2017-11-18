@@ -1,4 +1,4 @@
-package alex.com.githubchecker.components.app.api.model;
+package alex.com.githubchecker.models.api;
 
 /**
  * Created by Alex on 11/17/2017.

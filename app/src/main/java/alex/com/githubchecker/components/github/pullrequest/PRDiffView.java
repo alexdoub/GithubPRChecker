@@ -1,7 +1,6 @@
 package alex.com.githubchecker.components.github.pullrequest;
 
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -12,9 +11,8 @@ import android.widget.TextView;
 import javax.inject.Inject;
 
 import alex.com.githubchecker.R;
-import alex.com.githubchecker.components.app.api.model.Diff;
-import alex.com.githubchecker.components.app.api.model.PullRequest;
-import alex.com.githubchecker.components.github.activities.PRDiffActivity;
+import alex.com.githubchecker.models.Diff;
+import alex.com.githubchecker.models.api.PullRequest;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -32,7 +30,7 @@ public class PRDiffView {
     private View view;
 
     @Inject
-    public PRDiffView(PRDiffActivity context) {
+    public PRDiffView(PRDiffPresenter.PRDiffActivity context) {
         FrameLayout parent = new FrameLayout(context);
         parent.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         view = LayoutInflater.from(context).inflate(R.layout.activity_prdiff, parent, true);
@@ -43,13 +41,13 @@ public class PRDiffView {
     }
 
     void bindPR(PullRequest pullRequest) {
-        ((PRDiffActivity) view.getContext()).getSupportActionBar().setTitle(view.getContext().getString(R.string.activity_pr_diff, pullRequest.getNumber()));
+        ((PRDiffPresenter.PRDiffActivity) view.getContext()).getSupportActionBar().setTitle(view.getContext().getString(R.string.activity_pr_diff, pullRequest.getNumber()));
     }
 
     void bindDiff(Diff diff) {
         showLoading(false);
-        subtractionsTv.setText(diff.getSubtractions());
-        additionsTv.setText(diff.getAdditions());
+        subtractionsTv.setText(diff.getSubtractionsSpan(), TextView.BufferType.SPANNABLE);
+        additionsTv.setText(diff.getAdditionsSpan(), TextView.BufferType.SPANNABLE);
     }
 
     void showLoading(boolean loading) {

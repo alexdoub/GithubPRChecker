@@ -15,8 +15,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import alex.com.githubchecker.R;
-import alex.com.githubchecker.components.app.api.model.PullRequest;
-import alex.com.githubchecker.components.github.activities.PRListActivity;
+import alex.com.githubchecker.models.api.PullRequest;
 import alex.com.githubchecker.components.github.repo.list.PRListAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,7 +39,7 @@ public class RepoPRListView {
     private PublishSubject<Integer> selectedPRSubject = PublishSubject.create();
 
     @Inject
-    public RepoPRListView(PRListActivity context) {
+    public RepoPRListView(RepoPRListActivity context) {
         FrameLayout parent = new FrameLayout(context);
         parent.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         view = LayoutInflater.from(context).inflate(R.layout.activity_prlist, parent, true);

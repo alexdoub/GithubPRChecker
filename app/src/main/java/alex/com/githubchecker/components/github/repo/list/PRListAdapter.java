@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import alex.com.githubchecker.R;
-import alex.com.githubchecker.components.app.api.model.PullRequest;
+import alex.com.githubchecker.models.api.PullRequest;
 import io.reactivex.subjects.PublishSubject;
 
 /**
