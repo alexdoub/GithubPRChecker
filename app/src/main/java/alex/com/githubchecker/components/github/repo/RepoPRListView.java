@@ -15,8 +15,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import alex.com.githubchecker.R;
-import alex.com.githubchecker.models.api.PullRequest;
 import alex.com.githubchecker.components.github.repo.list.PRListAdapter;
+import alex.com.githubchecker.models.api.PullRequest;
+import alex.com.githubchecker.models.dagger.GithubModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
@@ -44,11 +45,13 @@ public class RepoPRListView {
         parent.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         view = LayoutInflater.from(context).inflate(R.layout.activity_prlist, parent, true);
         ButterKnife.bind(this, view);
-        context.getSupportActionBar().setTitle(R.string.activity_pull_requests);
 
         adapter = new PRListAdapter(selectedPRSubject);
         pullRequestRV.setAdapter(adapter);
+    }
 
+    void bindRepo(GithubModel model) {
+        ((RepoPRListActivity) view.getContext()).getSupportActionBar().setTitle(view.getContext().getString(R.string.activity_pull_requests, model.getRepo(), model.getOwner()));
     }
 
     void bindPRList(List<PullRequest> pullRequests) {

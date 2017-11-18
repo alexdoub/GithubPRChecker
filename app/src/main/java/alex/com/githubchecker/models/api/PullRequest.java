@@ -9,7 +9,7 @@ public class PullRequest extends BaseModel {
     private String title;
     private Integer number;
     private Commit head;
-    private String createdAt;
+    private String created_at;
     private String diff_url;
 
 
@@ -30,7 +30,7 @@ public class PullRequest extends BaseModel {
     }
 
     public String getCreatedAt() {
-        return createdAt;
+        return created_at;
     }
 
     public String getDiffUrl() {

@@ -12,23 +12,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/colorPrimaryDark"
         android:padding="10dp"
         android:text="@string/select_pull_request" />
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/instructions"
-        android:background="@android:color/black" />
-
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/pull_request_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/refresh_prs"
-        android:layout_below="@id/divider"
+        android:layout_below="@id/instructions"
         android:orientation="vertical"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
@@ -44,7 +37,7 @@
     <Button
         android:id="@+id/refresh_prs"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:padding="10dp"
         android:text="@string/refresh_pull_requests" />

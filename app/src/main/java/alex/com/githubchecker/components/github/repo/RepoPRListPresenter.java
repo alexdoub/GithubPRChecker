@@ -1,7 +1,7 @@
 package alex.com.githubchecker.components.github.repo;
 
-import alex.com.githubchecker.models.dagger.GithubModel;
 import alex.com.githubchecker.components.github.pullrequest.PRDiffPresenter;
+import alex.com.githubchecker.models.dagger.GithubModel;
 import alex.com.githubchecker.utils.SchedulerUtils;
 
 /**
@@ -30,6 +30,7 @@ public class RepoPRListPresenter {
         model.getPullRequestsSubject()
                 .observeOn(SchedulerUtils.main())
                 .subscribe(view::bindPRList);
+        view.bindRepo(model);
     }
 
     public void onStart() {

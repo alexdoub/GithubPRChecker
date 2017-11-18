@@ -4,6 +4,7 @@ import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import alex.com.githubchecker.components.app.api.APIClient;
 import alex.com.githubchecker.components.app.api.GithubAPI;
+import alex.com.githubchecker.components.app.data.DataManager;
 import alex.com.githubchecker.config.Constants;
 import alex.com.githubchecker.utils.SchedulerUtils;
 import dagger.Module;
@@ -49,7 +50,7 @@ public class NetworkModule {
 
     @Provides
     APIClient provideAPIClient(GithubAPI githubAPI, OkHttpClient client) {
-        return new APIClient(client, githubAPI, Constants.GITHUB_USER, Constants.GITHUB_REPO);
+        return new APIClient(client, githubAPI);
     }
 
 }

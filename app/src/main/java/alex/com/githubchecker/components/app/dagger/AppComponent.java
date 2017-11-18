@@ -3,6 +3,7 @@ package alex.com.githubchecker.components.app.dagger;
 import android.content.Context;
 
 import alex.com.githubchecker.components.app.api.APIClient;
+import alex.com.githubchecker.components.app.data.DataManager;
 import dagger.Component;
 
 /**
@@ -12,6 +13,8 @@ import dagger.Component;
 @Component(modules = {AppModule.class, NetworkModule.class, DataModule.class})
 public interface AppComponent {
     APIClient provideAPIClient();
+
+    DataManager provideDataManager();
 
     Context provideContext();
 }

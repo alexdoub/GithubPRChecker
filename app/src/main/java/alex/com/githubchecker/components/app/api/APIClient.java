@@ -20,19 +20,15 @@ import timber.log.Timber;
 
 public class APIClient {
 
-    private String owner;
-    private String repo;
     private GithubAPI _githubAPI;
     private OkHttpClient _client;
 
-    public APIClient(OkHttpClient client, GithubAPI githubAPI, String owner, String repo) {
+    public APIClient(OkHttpClient client, GithubAPI githubAPI) {
         _githubAPI = githubAPI;
         _client = client;
-        this.owner = owner;
-        this.repo = repo;
     }
 
-    public Observable<List<PullRequest>> getPullRequests() {
+    public Observable<List<PullRequest>> getPullRequests(String owner, String repo) {
         return _githubAPI.getPullRequests(owner, repo);
     }
 

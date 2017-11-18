@@ -53,11 +53,11 @@ public class Diff {
                 //Add filename to corresponding side
                 else if (str.startsWith(KEY_META_SUBTRACTION)) {
 
-                    subtractionsBuilder.append(str, new BackgroundColorSpan(Color.TRANSPARENT), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                    subtractionsBuilder.append("\n", new BackgroundColorSpan(Color.TRANSPARENT), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    subtractionsBuilder.append(str);
+                    subtractionsBuilder.append("\n");
                 } else if (str.startsWith(KEY_META_ADDITION)) {
-                    additionsBuilder.append(str, new BackgroundColorSpan(Color.TRANSPARENT), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                    additionsBuilder.append("\n", new BackgroundColorSpan(Color.TRANSPARENT), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    additionsBuilder.append(str);
+                    additionsBuilder.append("\n");
                     currentlyInMetadataBlock = false;
                 }
             }
@@ -74,12 +74,12 @@ public class Diff {
                 } else if (str.charAt(0) == KEY_ADDITION) {
                     additionsBuilder.append(str, new BackgroundColorSpan(Color.GREEN), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 } else {
-                    subtractionsBuilder.append(str, new BackgroundColorSpan(Color.TRANSPARENT), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                    additionsBuilder.append(str, new BackgroundColorSpan(Color.TRANSPARENT), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    subtractionsBuilder.append(str);
+                    additionsBuilder.append(str);
                 }
 
-                subtractionsBuilder.append("\n", new BackgroundColorSpan(Color.TRANSPARENT), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                additionsBuilder.append("\n", new BackgroundColorSpan(Color.TRANSPARENT), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                subtractionsBuilder.append("\n");
+                additionsBuilder.append("\n");
             }
         }
 
