@@ -2,5 +2,12 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#D55</color>
+
+    <color name="diff_subtraction">#F88</color>
+    <color name="diff_subtraction_bg">#FDD</color>
+    <color name="diff_addition">#7F7</color>
+    <color name="diff_addition_bg">#DFD</color>
+
+    <color name="gray">#AAA</color>
 </resources>

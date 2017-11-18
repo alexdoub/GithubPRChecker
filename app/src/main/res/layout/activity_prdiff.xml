@@ -15,28 +15,33 @@
             android:orientation="horizontal">
 
             <HorizontalScrollView
-                android:layout_width="wrap_content"
+                android:layout_width="10dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#FCC"
+                android:background="@color/diff_subtraction_bg"
                 android:scrollbarAlwaysDrawHorizontalTrack="true">
 
                 <TextView
-                    android:id="@+id/removed_tv"
+                    android:id="@+id/subtractions_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
             </HorizontalScrollView>
 
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray" />
+
             <HorizontalScrollView
-                android:layout_width="wrap_content"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#CFC"
+                android:background="@color/diff_addition_bg"
                 android:scrollbarAlwaysDrawHorizontalTrack="true">
 
                 <TextView
-                    android:id="@+id/added_tv"
+                    android:id="@+id/additions_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

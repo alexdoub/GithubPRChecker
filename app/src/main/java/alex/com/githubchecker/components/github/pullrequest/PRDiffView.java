@@ -22,8 +22,8 @@ import butterknife.ButterKnife;
 
 public class PRDiffView {
 
-    @BindView(R.id.removed_tv) TextView subtractionsTv;
-    @BindView(R.id.added_tv) TextView additionsTv;
+    @BindView(R.id.subtractions_tv) TextView subtractionsTv;
+    @BindView(R.id.additions_tv) TextView additionsTv;
     @BindView(R.id.container) ScrollView containerSv;
     @BindView(R.id.loading) ProgressBar loadingView;
 

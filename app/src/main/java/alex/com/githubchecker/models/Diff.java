@@ -5,6 +5,8 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.BackgroundColorSpan;
 
+import alex.com.githubchecker.R;
+import alex.com.githubchecker.components.app.GithubCheckerApp;
 import timber.log.Timber;
 
 /**
@@ -20,6 +22,8 @@ public class Diff {
     private static String KEY_META_LINE = "@@";
     private static char KEY_ADDITION = '+';
     private static char KEY_SUBTRACTION = '-';
+    private static int SubtractionsColor = 0;
+    private static int AdditionsColor = 0;
 
     private SpannableStringBuilder additions;
     private SpannableStringBuilder subtractions;
@@ -31,11 +35,25 @@ public class Diff {
 
     public static Diff Parse(String content) {
 
+        //Set static colors -- this is only done once
+        if (SubtractionsColor == 0 || AdditionsColor == 0) {
+            SubtractionsColor = GithubCheckerApp.getAppComponent().provideContext().getResources().getColor(R.color.diff_subtraction);
+            AdditionsColor = GithubCheckerApp.getAppComponent().provideContext().getResources().getColor(R.color.diff_addition);
+        }
+
         String[] contentArr = content.split("\n");
-        Timber.d("Diff parsed content of length: " + content.length() + " into " + contentArr.length + " lines");
+        Timber.i("Diff parsed content of length: " + content.length() + " into " + contentArr.length + " lines");
 
         SpannableStringBuilder additionsBuilder = new SpannableStringBuilder("");
         SpannableStringBuilder subtractionsBuilder = new SpannableStringBuilder("");
+
+
+        //Handling these spans is tricky because it remembers the last span you set
+        //You should only set the span color if the color changes
+        //If you always set the color, the app slows to a crawl
+        //Solution: Only set span when color changes
+        boolean lastAdditionSpanColored = false;
+        boolean lastSubtractionSpanColored = false;
 
         boolean currentlyInMetadataBlock = true;
         for (String str : contentArr) {
@@ -68,14 +86,36 @@ public class Diff {
             }
 
             //Not in metadata block, handle line as content
+            //Content must be careful to not create too many spans, as it is SLOW
             else {
                 if (str.charAt(0) == KEY_SUBTRACTION) {
-                    subtractionsBuilder.append(str, new BackgroundColorSpan(Color.RED), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    if (!lastSubtractionSpanColored) {
+                        subtractionsBuilder.append(str, new BackgroundColorSpan(SubtractionsColor), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                        lastSubtractionSpanColored = true;
+                    } else {
+                        subtractionsBuilder.append(str);
+                    }
                 } else if (str.charAt(0) == KEY_ADDITION) {
-                    additionsBuilder.append(str, new BackgroundColorSpan(Color.GREEN), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    if (!lastAdditionSpanColored) {
+                        additionsBuilder.append(str, new BackgroundColorSpan(AdditionsColor), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                        lastAdditionSpanColored = true;
+                    } else {
+                        additionsBuilder.append(str);
+                    }
                 } else {
-                    subtractionsBuilder.append(str);
-                    additionsBuilder.append(str);
+                    if (lastAdditionSpanColored) {
+                        subtractionsBuilder.append(str, new BackgroundColorSpan(Color.TRANSPARENT), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                        lastSubtractionSpanColored = false;
+                    } else {
+                        subtractionsBuilder.append(str);
+                    }
+
+                    if (lastAdditionSpanColored) {
+                        additionsBuilder.append(str, new BackgroundColorSpan(Color.TRANSPARENT), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                        lastAdditionSpanColored = false;
+                    } else {
+                        additionsBuilder.append(str);
+                    }
                 }
 
                 subtractionsBuilder.append("\n");
