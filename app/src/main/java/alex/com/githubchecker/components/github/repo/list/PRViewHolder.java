@@ -1,4 +1,4 @@
-package alex.com.githubchecker.components.github.list;
+package alex.com.githubchecker.components.github.repo.list;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -19,25 +19,23 @@ import io.reactivex.subjects.PublishSubject;
 class PRViewHolder extends RecyclerView.ViewHolder {
 
     private View view;
-    private PublishSubject<Integer> selectedPRSubject;
 
     @BindView(R.id.title) TextView titleTv;
     @BindView(R.id.status) TextView statusTv;
 
-    private Integer _pullRequestID;
+    private Integer _pullRequestNumber;
 
     PRViewHolder(View itemView, PublishSubject<Integer> selectedPRSubject) {
         super(itemView);
         this.view = itemView;
-        this.selectedPRSubject = selectedPRSubject;
         ButterKnife.bind(this, view);
 
-        RxView.clicks(view).subscribe(click -> {selectedPRSubject.onNext(_pullRequestID);});
+        RxView.clicks(view).subscribe(click -> {selectedPRSubject.onNext(_pullRequestNumber);});
     }
 
     void bind(PullRequest pullRequest) {
 
-        _pullRequestID = pullRequest.getId();
+        _pullRequestNumber = pullRequest.getNumber();
 
         String userLogin = pullRequest.getUserLogin();
         Integer number = pullRequest.getNumber();

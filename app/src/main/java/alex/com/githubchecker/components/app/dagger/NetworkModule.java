@@ -48,8 +48,8 @@ public class NetworkModule {
     }
 
     @Provides
-    APIClient provideAPIClient(GithubAPI githubAPI) {
-        return new APIClient(githubAPI, Constants.GITHUB_USER, Constants.GITHUB_REPO);
+    APIClient provideAPIClient(GithubAPI githubAPI, OkHttpClient client) {
+        return new APIClient(client, githubAPI, Constants.GITHUB_USER, Constants.GITHUB_REPO);
     }
 
 }

@@ -1,7 +1,4 @@
-package alex.com.githubchecker.components.github.core;
-
-import android.content.Context;
-import android.content.Intent;
+package alex.com.githubchecker.components.github.repo;
 
 import alex.com.githubchecker.components.github.activities.PRDiffActivity;
 import alex.com.githubchecker.utils.SchedulerUtils;
@@ -10,12 +7,12 @@ import alex.com.githubchecker.utils.SchedulerUtils;
  * Created by Alex on 11/11/2017.
  */
 
-public class PRListPresenter {
+public class RepoPRListPresenter {
 
-    private PRListView view;
-    private GithubRepoModel model;
+    private RepoPRListView view;
+    private GithubModel model;
 
-    public PRListPresenter(GithubRepoModel model, PRListView view) {
+    public RepoPRListPresenter(GithubModel model, RepoPRListView view) {
         this.model = model;
         this.view = view;
     }

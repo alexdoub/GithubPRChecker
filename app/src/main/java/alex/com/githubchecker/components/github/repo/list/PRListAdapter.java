@@ -1,4 +1,4 @@
-package alex.com.githubchecker.components.github.list;
+package alex.com.githubchecker.components.github.repo.list;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

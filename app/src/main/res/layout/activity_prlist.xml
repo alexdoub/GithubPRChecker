@@ -19,7 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/refresh_prs"
         android:layout_below="@id/instructions"
-        android:background="@color/colorPrimaryDark"
         android:orientation="vertical"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 

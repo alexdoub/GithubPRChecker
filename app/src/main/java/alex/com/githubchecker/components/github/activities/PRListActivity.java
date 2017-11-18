@@ -6,9 +6,9 @@ import javax.inject.Inject;
 
 import alex.com.githubchecker.components.app.BaseActivity;
 import alex.com.githubchecker.components.app.GithubCheckerApp;
-import alex.com.githubchecker.components.github.core.GithubRepoModel;
-import alex.com.githubchecker.components.github.core.PRListPresenter;
-import alex.com.githubchecker.components.github.core.PRListView;
+import alex.com.githubchecker.components.github.repo.GithubModel;
+import alex.com.githubchecker.components.github.repo.RepoPRListView;
+import alex.com.githubchecker.components.github.repo.RepoPRListPresenter;
 import butterknife.ButterKnife;
 
 /**
@@ -17,10 +17,10 @@ import butterknife.ButterKnife;
 
 public class PRListActivity extends BaseActivity {
 
-    PRListView view;
-    PRListPresenter presenter;
+    RepoPRListView view;
+    RepoPRListPresenter presenter;
 
-    @Inject GithubRepoModel githubRepoModel;
+    @Inject GithubModel githubModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +29,8 @@ public class PRListActivity extends BaseActivity {
         ButterKnife.bind(this);
         GithubCheckerApp.getGithubComponent().inject(this);
 
-        view = new PRListView(this);
-        presenter = new PRListPresenter(githubRepoModel, view);
+        view = new RepoPRListView(this);
+        presenter = new RepoPRListPresenter(githubModel, view);
 
         setContentView(view.view());
         presenter.onCreate();

@@ -8,7 +8,7 @@ public class BaseModel {
 
     private Integer id;
 
-    public Integer getId() {
-        return id;
-    }
+//    public Integer getId() {
+//        return id;
+//    }
 }

@@ -1,7 +1,7 @@
 package alex.com.githubchecker.components.github.dagger;
 
 import alex.com.githubchecker.components.app.api.APIClient;
-import alex.com.githubchecker.components.github.core.GithubRepoModel;
+import alex.com.githubchecker.components.github.repo.GithubModel;
 import dagger.Module;
 import dagger.Provides;
 
@@ -14,8 +14,8 @@ public class GithubModule {
 
     @Provides
     @GithubScope
-    GithubRepoModel provideModel(APIClient apiClient) {
-        return new GithubRepoModel(apiClient);
+    GithubModel provideGithubModel(APIClient apiClient) {
+        return new GithubModel(apiClient);
     }
 
 }

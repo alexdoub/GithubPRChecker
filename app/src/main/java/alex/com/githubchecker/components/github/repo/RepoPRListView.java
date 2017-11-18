@@ -1,4 +1,4 @@
-package alex.com.githubchecker.components.github.core;
+package alex.com.githubchecker.components.github.repo;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,13 +8,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView;
-import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerViewAdapter;
 import com.jakewharton.rxbinding2.view.RxView;
-import com.jakewharton.rxbinding2.view.RxViewGroup;
-import com.jakewharton.rxbinding2.widget.RxAbsListView;
-import com.jakewharton.rxbinding2.widget.RxAdapter;
-import com.jakewharton.rxbinding2.widget.RxAdapterView;
 
 import java.util.List;
 
@@ -23,7 +17,7 @@ import javax.inject.Inject;
 import alex.com.githubchecker.R;
 import alex.com.githubchecker.components.app.api.model.PullRequest;
 import alex.com.githubchecker.components.github.activities.PRListActivity;
-import alex.com.githubchecker.components.github.list.PRListAdapter;
+import alex.com.githubchecker.components.github.repo.list.PRListAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
@@ -33,7 +27,7 @@ import io.reactivex.subjects.PublishSubject;
  * Created by Alex on 11/11/2017.
  */
 
-public class PRListView {
+public class RepoPRListView {
 
     @BindView(R.id.loading) ProgressBar loadingView;
 
@@ -46,7 +40,7 @@ public class PRListView {
     private PublishSubject<Integer> selectedPRSubject = PublishSubject.create();
 
     @Inject
-    public PRListView(PRListActivity context) {
+    public RepoPRListView(PRListActivity context) {
         FrameLayout parent = new FrameLayout(context);
         parent.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         view = LayoutInflater.from(context).inflate(R.layout.activity_prlist, parent, true);

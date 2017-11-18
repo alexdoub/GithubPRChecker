@@ -10,6 +10,7 @@ public class PullRequest extends BaseModel {
     private Integer number;
     private Commit head;
     private String createdAt;
+    private String diff_url;
 
 
     //Accessors methods
@@ -30,5 +31,9 @@ public class PullRequest extends BaseModel {
 
     public String getCreatedAt() {
         return createdAt;
+    }
+
+    public String getDiffUrl() {
+        return diff_url;
     }
 }
