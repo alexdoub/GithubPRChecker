@@ -1,6 +1,7 @@
 package alex.com.githubchecker.components.github.pullrequest;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -36,6 +37,9 @@ public class PRDiffView {
         parent.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         view = LayoutInflater.from(context).inflate(R.layout.activity_prdiff, parent, true);
         ButterKnife.bind(this, view);
+
+        subtractionsTv.setHorizontallyScrolling(true);
+        additionsTv.setHorizontallyScrolling(true);
     }
 
     void bindPR(PullRequest pullRequest) {

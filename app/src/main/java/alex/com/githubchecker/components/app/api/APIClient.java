@@ -9,11 +9,9 @@ import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import retrofit2.Retrofit;
 import timber.log.Timber;
 
 /**
@@ -38,11 +36,8 @@ public class APIClient {
         return _githubAPI.getPullRequests(owner, repo);
     }
 
-//    public Observable<PullRequest> getPullRequest(String pullrequestId) {
-//        return _githubAPI.getPullRequest(owner, repo, pullrequestId);
-//    }
-
-    //For some reason we can't use the API base URL, we have to use the URL provided in the PR obj
+    //We cant use a standard API call for this, so we have to manually get the data
+    //From the URL provided
     public Observable<Diff> getDiffForPullRequest(PullRequest pullRequest) {
         Request.Builder req = new Request.Builder();
         req.url(pullRequest.getDiffUrl());
@@ -56,9 +51,8 @@ public class APIClient {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Timber.e("getDiffForPullRequest success");
                 if (response.isSuccessful() && response.body() != null) {
-                    publishSubject.onNext(new Diff(response.body().string()));
+                    publishSubject.onNext(Diff.Parse(response.body().string()));
                 }
             }
         });

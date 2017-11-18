@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!--Split view container-->
     <ScrollView
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -13,21 +14,35 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/removed_tv"
-                android:layout_width="50dp"
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#FAA" />
+                android:background="#FAA"
+                android:scrollbarAlwaysDrawHorizontalTrack="true">
 
-            <TextView
-                android:id="@+id/added_tv"
-                android:layout_width="50dp"
+                <TextView
+                    android:id="@+id/removed_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </HorizontalScrollView>
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#BBF" />
+                android:background="#BBF"
+                android:scrollbarAlwaysDrawHorizontalTrack="true">
 
+                <TextView
+                    android:id="@+id/added_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </HorizontalScrollView>
         </LinearLayout>
+
     </ScrollView>
 
 
