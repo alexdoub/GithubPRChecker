@@ -50,7 +50,7 @@ public class GithubModel {
     public Observable<Diff> getDiffForPr(PullRequest pullRequest) {
         PublishSubject<Diff> diffPublishSubject = PublishSubject.create();
         apiClient.getDiffForPullRequest(pullRequest)
-                .observeOn(SchedulerUtils.main())
+                .observeOn(SchedulerUtils.main())   //Must be main to make the toast
                 .subscribe(rawDiff -> {
 
                     //Notify user of expensive operation

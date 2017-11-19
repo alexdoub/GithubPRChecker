@@ -40,7 +40,6 @@ public class APIClient {
         req.url(pullRequest.getDiffUrl());
         PublishSubject<String> publishSubject = PublishSubject.create();
 
-
         _client.newCall(req.build()).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
