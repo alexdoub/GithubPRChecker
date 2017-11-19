@@ -30,7 +30,7 @@ public class PRDiffView {
     private View view;
 
     @Inject
-    public PRDiffView(PRDiffPresenter.PRDiffActivity context) {
+    public PRDiffView(PRDiffActivity context) {
         FrameLayout parent = new FrameLayout(context);
         parent.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         view = LayoutInflater.from(context).inflate(R.layout.activity_prdiff, parent, true);
@@ -41,7 +41,7 @@ public class PRDiffView {
     }
 
     void bindPR(PullRequest pullRequest) {
-        ((PRDiffPresenter.PRDiffActivity) view.getContext()).getSupportActionBar().setTitle(view.getContext().getString(R.string.activity_pr_diff, pullRequest.getNumber()));
+        ((PRDiffActivity) view.getContext()).getSupportActionBar().setTitle(view.getContext().getString(R.string.activity_pr_diff, pullRequest.getNumber()));
     }
 
     void bindDiff(Diff diff) {

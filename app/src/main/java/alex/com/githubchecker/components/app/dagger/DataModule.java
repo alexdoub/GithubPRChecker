@@ -26,7 +26,8 @@ public class DataModule {
         return context.getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
     }
 
-    @Provides DataManager providesDatamanager() {
+    @Provides
+    DataManager providesDatamanager() {
         return new DataManager();
     }
 }

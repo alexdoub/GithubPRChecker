@@ -50,37 +50,4 @@ public class PRDiffPresenter {
                 .subscribe(view::bindDiff);
     }
 
-    /**
-     * Created by Alex on 11/17/2017.
-     */
-
-    public static class PRDiffActivity extends BaseActivity {
-
-        private static String KEY_PR_ID = "id";
-        PRDiffView view;
-        PRDiffPresenter presenter;
-        @Inject GithubModel githubModel;
-
-        public static void Show(Context context, Integer pullRequestId) {
-            Intent in = new Intent(context, PRDiffActivity.class);
-            in.putExtra(KEY_PR_ID, pullRequestId);
-            context.startActivity(in);
-        }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
-            Integer pullRequestId = getIntent().getIntExtra(KEY_PR_ID, 0);
-
-            ButterKnife.bind(this);
-            GithubCheckerApp.getGithubComponent().inject(this);
-
-            view = new PRDiffView(this);
-            presenter = new PRDiffPresenter(githubModel, view, pullRequestId);
-
-            setContentView(view.view());
-            presenter.onCreate();
-        }
-    }
 }

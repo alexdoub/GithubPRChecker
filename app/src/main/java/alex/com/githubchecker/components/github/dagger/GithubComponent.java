@@ -1,8 +1,8 @@
 package alex.com.githubchecker.components.github.dagger;
 
 import alex.com.githubchecker.components.app.dagger.AppComponent;
+import alex.com.githubchecker.components.github.pullrequest.PRDiffActivity;
 import alex.com.githubchecker.components.github.repo.RepoPRListActivity;
-import alex.com.githubchecker.components.github.pullrequest.PRDiffPresenter;
 import dagger.Component;
 
 /**
@@ -15,5 +15,5 @@ public interface GithubComponent {
 
     void inject(RepoPRListActivity activity);
 
-    void inject(PRDiffPresenter.PRDiffActivity activity);
+    void inject(PRDiffActivity activity);
 }
