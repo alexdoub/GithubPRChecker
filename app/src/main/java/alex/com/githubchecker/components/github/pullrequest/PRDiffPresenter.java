@@ -8,10 +8,13 @@ import javax.inject.Inject;
 
 import alex.com.githubchecker.components.app.BaseActivity;
 import alex.com.githubchecker.components.app.GithubCheckerApp;
+import alex.com.githubchecker.models.Diff;
 import alex.com.githubchecker.models.api.PullRequest;
 import alex.com.githubchecker.models.dagger.GithubModel;
 import alex.com.githubchecker.utils.SchedulerUtils;
 import butterknife.ButterKnife;
+import io.reactivex.ObservableSource;
+import io.reactivex.functions.Function;
 
 /**
  * Created by Alex on 11/11/2017.

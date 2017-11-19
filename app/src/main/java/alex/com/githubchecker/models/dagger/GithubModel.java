@@ -1,7 +1,10 @@
 package alex.com.githubchecker.models.dagger;
 
+import android.widget.Toast;
+
 import java.util.List;
 
+import alex.com.githubchecker.components.app.GithubCheckerApp;
 import alex.com.githubchecker.components.app.api.APIClient;
 import alex.com.githubchecker.components.app.data.DataManager;
 import alex.com.githubchecker.models.Diff;
@@ -9,6 +12,7 @@ import alex.com.githubchecker.models.api.PullRequest;
 import alex.com.githubchecker.utils.SchedulerUtils;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by Alex on 11/17/2017.
@@ -44,7 +48,23 @@ public class GithubModel {
     }
 
     public Observable<Diff> getDiffForPr(PullRequest pullRequest) {
-        return apiClient.getDiffForPullRequest(pullRequest);
+        PublishSubject<Diff> diffPublishSubject = PublishSubject.create();
+        apiClient.getDiffForPullRequest(pullRequest)
+                .observeOn(SchedulerUtils.main())
+                .subscribe(rawDiff -> {
+
+                    //Notify user of expensive operation
+                    if (rawDiff.length() > 15000) {
+                        Toast.makeText(GithubCheckerApp.getAppComponent().provideContext(), "Processing large diff, this could take some time.", Toast.LENGTH_SHORT).show();
+                    }
+
+                    //Do computation on computation thread
+                    Observable.just(rawDiff)
+                            .observeOn(SchedulerUtils.compute())
+                            .subscribe(input -> diffPublishSubject.onNext(Diff.Parse(input)));
+                });
+
+        return diffPublishSubject;
     }
 
     public String getOwner() {

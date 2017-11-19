@@ -4,9 +4,12 @@ import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.BackgroundColorSpan;
+import android.widget.Toast;
 
 import alex.com.githubchecker.R;
 import alex.com.githubchecker.components.app.GithubCheckerApp;
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 import timber.log.Timber;
 
 /**
