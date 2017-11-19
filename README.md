@@ -23,16 +23,15 @@ Dagger Components
     │
     ├──AppComponent
     │   ├── AppModule 
-    │   │       └──App Context─>┐
-    │   │                       │
-    │   ├── DataModule          │
-    │   │       └───────DataManager──>──┐
-    │   └── NetworkModule               │
-    │           └───────APIClient──>────┤
-    │                                   │
-    └── GithubComponent                 │
-            └── GithubModule            ↓
-                    └──────────────GithubModel
+    │   │       └──AppContext─>┐
+    │   ├── DataModule         │
+    │   │       └─────────DataManager──>──┐
+    │   └── NetworkModule                 │
+    │           └─────────APIClient──>────┤
+    │                                     │
+    └── GithubComponent                   │
+            └── GithubModule              ↓
+                    └────────────────GithubModel
 ```
 
 * App Module - Contains app context
