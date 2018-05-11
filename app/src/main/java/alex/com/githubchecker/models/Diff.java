@@ -106,7 +106,7 @@ public class Diff {
                         additionsBuilder.append(str);
                     }
                 } else {
-                    if (lastAdditionSpanColored) {
+                    if (lastSubtractionSpanColored) {
                         subtractionsBuilder.append(str, new BackgroundColorSpan(Color.TRANSPARENT), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                         lastSubtractionSpanColored = false;
                     } else {
