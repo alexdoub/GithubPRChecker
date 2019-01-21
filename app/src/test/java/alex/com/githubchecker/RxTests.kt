@@ -6,14 +6,14 @@ import io.reactivex.exceptions.OnErrorNotImplementedException
 import io.reactivex.functions.Function
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.schedulers.TestScheduler
 import io.reactivex.subjects.PublishSubject
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import java.io.IOException
-import io.reactivex.schedulers.TestScheduler
-import org.reactivestreams.Subscription
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeUnit.MILLISECONDS
 import java.util.concurrent.TimeUnit.SECONDS
 
 
@@ -169,8 +169,8 @@ class RxTests {
         printThread("Test Obs ", testObs.lastThread())
 
         //subscribe on specifies the default thread for the source `observable
-            //single use. Additional subscribeOn is IGNORED
-            //Subsequent operators will default to subscribeOn unless
+        //single use. Additional subscribeOn is IGNORED
+        //Subsequent operators will default to subscribeOn unless
         //observeOn affects subsequent observers (including operators)-- one per. same thread persists, successive observers use same thread
         //'ObserveOn Tells THIS observable which scheduler to use when others observe it. Observables post to observers on this thread."
         //multiple observeOn's will overwrite the old one
@@ -183,7 +183,6 @@ class RxTests {
 
 
         //NOTE99: If you're binding in an Rx subscription, observeOn main!
-
 
 
         //Flowables have buffer
@@ -219,7 +218,7 @@ class RxTests {
     }
 
     @Test
-    public fun emitterStopsEmittingIfNoObservers() {
+    public fun emitterStopsEmittingIfDisposed() {
 //        var didchuck = false
 //        val countup = Observable.fromIterable(0..10)
 //
@@ -241,7 +240,8 @@ class RxTests {
 
         val scheduler = TestScheduler()
         val observable = Observable.interval(1, TimeUnit.SECONDS, scheduler)
-        val testObserver = observable.test()
+        val testObserver = observable
+                .test()
 
         testObserver.assertNoValues()
 
@@ -251,25 +251,50 @@ class RxTests {
         scheduler.advanceTimeBy(1, SECONDS)
         testObserver.assertValues(0L, 1L)
 
-        testObserver.dispose() // Dispose the connection.
+//        testObserver.dispose() // Dispose the connection.
+//
+//        scheduler.advanceTimeBy(100, SECONDS)
+//        testObserver.assertValues(0L, 1L)
 
-        scheduler.advanceTimeBy(100, SECONDS)
-        testObserver.assertValues(0L, 1L)
 
+//        Thread.sleep(2000)    no effect
 
+        val testObserver2 = observable.test()
 
-        //YOU CAN TEST RACE CONDITIONS IN CODE
+        testObserver2.assertNoValues()
+        scheduler.advanceTimeBy(999, MILLISECONDS)
+        testObserver2.assertNoValues()
+
+        scheduler.advanceTimeBy(1, MILLISECONDS)
+        testObserver2.assertValues(0L)
 
         //when does observable die? does it just live forever shitting up memory? what if it emits 1000x items per sec?
-
+            //untill they terminal event or are garbage collected
         //Observable does not run at all unless something subscribes to it.
     }
+
+    @Test
+    fun doubleSubscribe() {
+        val observable = Observable.fromIterable(1..100)
+        val observer = observable.take(50)
+                .toList()
+                .subscribe { a, b ->
+                    println("got ${a}")
+
+                    observable.take(40)
+                            .subscribe { println("got ${it}") }
+                }
+
+        //observable re-emits for each subscriber
+    }
+
+
 
 
     fun doObservablesDispose() {
         Observable.fromPublisher<Int> { source ->
             (0..10).forEach {
-                source.
+               // source.
             }
         }
     }
