@@ -11,6 +11,7 @@ import alex.com.githubchecker.models.Diff;
 import alex.com.githubchecker.models.api.PullRequest;
 import alex.com.githubchecker.utils.SchedulerUtils;
 import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 
@@ -23,6 +24,7 @@ public class GithubModel {
     private APIClient apiClient;
     private DataManager dataManager;
     private BehaviorSubject<List<PullRequest>> pullRequestsSubject;
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     public GithubModel(APIClient apiClient, DataManager dataManager) {
         this.apiClient = apiClient;
@@ -31,9 +33,9 @@ public class GithubModel {
     }
 
     public void getPullRequests() {
-        apiClient.getPullRequests(dataManager.getCurrentUserSubject().getValue(), dataManager.getCurrentRepoSubject().getValue())
+        disposables.add(apiClient.getPullRequests(dataManager.getCurrentUserSubject().getValue(), dataManager.getCurrentRepoSubject().getValue())
                 .observeOn(SchedulerUtils.main())
-                .subscribe(pullRequestsSubject::onNext);
+                .subscribe(pullRequestsSubject::onNext));
     }
 
 
@@ -49,7 +51,7 @@ public class GithubModel {
 
     public Observable<Diff> getDiffForPr(PullRequest pullRequest) {
         PublishSubject<Diff> diffPublishSubject = PublishSubject.create();
-        apiClient.getDiffForPullRequest(pullRequest)
+        disposables.add(apiClient.getDiffForPullRequest(pullRequest)
                 .observeOn(SchedulerUtils.main())   //Must be main to make the toast
                 .subscribe(rawDiff -> {
 
@@ -62,7 +64,7 @@ public class GithubModel {
                     Observable.just(rawDiff)
                             .observeOn(SchedulerUtils.compute())
                             .subscribe(input -> diffPublishSubject.onNext(Diff.Parse(input)));
-                });
+                }));
 
         return diffPublishSubject;
     }

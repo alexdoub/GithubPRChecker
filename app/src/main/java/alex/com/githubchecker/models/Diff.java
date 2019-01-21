@@ -36,6 +36,7 @@ public class Diff {
         this.subtractions = subtractions;
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
     public static Diff Parse(String content) {
 
         //Set static colors -- this is only done once
