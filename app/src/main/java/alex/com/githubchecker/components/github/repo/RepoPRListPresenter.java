@@ -3,44 +3,54 @@ package alex.com.githubchecker.components.github.repo;
 import alex.com.githubchecker.components.github.pullrequest.PRDiffActivity;
 import alex.com.githubchecker.models.dagger.GithubModel;
 import alex.com.githubchecker.utils.SchedulerUtils;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by Alex on 11/11/2017.
  */
 
-public class RepoPRListPresenter {
+class RepoPRListPresenter {
 
     private RepoPRListView view;
     private GithubModel model;
+    private CompositeDisposable disposables = new CompositeDisposable();
 
-    public RepoPRListPresenter(GithubModel model, RepoPRListView view) {
+    RepoPRListPresenter(GithubModel model, RepoPRListView view) {
         this.model = model;
         this.view = view;
     }
 
-    public void onCreate() {
-
+    void onCreate() {
         //Click listeners
-        view.refreshClicks().subscribe(obj -> {
-            refreshPullRequests();
-        });
-        view.selectedPRSubject().subscribe(this::pullRequestTapped);
+        disposables.add(
+                view.refreshClicks()
+                        .subscribe(obj -> refreshPullRequests()));
+        disposables.add(
+                view.selectedPRSubject()
+                        .subscribe(this::pullRequestTapped));
 
         //Model->View listeners
-        model.getPullRequestsSubject()
-                .observeOn(SchedulerUtils.main())
-                .subscribe(view::bindPRList);
+        disposables.add(
+                model.getPullRequestsSubject()
+                        .observeOn(SchedulerUtils.main())
+                        .subscribe(view::bindPRList));
+
+
         view.bindRepo(model);
     }
 
-    public void onStart() {
+    void onStop() {
+        disposables.clear();
+    }
+
+    void onStart() {
         if (!model.getPullRequestsSubject().hasValue()) {
             refreshPullRequests();
         }
     }
 
     private void pullRequestTapped(Integer pullrequestId) {
-            PRDiffActivity.Show(view.view().getContext(), pullrequestId);
+        PRDiffActivity.Show(view.view().getContext(), pullrequestId);
     }
 
     private void refreshPullRequests() {

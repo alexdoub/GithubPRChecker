@@ -1,53 +1,47 @@
 package alex.com.githubchecker.components.github.pullrequest;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-
-import javax.inject.Inject;
-
-import alex.com.githubchecker.components.app.BaseActivity;
-import alex.com.githubchecker.components.app.GithubCheckerApp;
-import alex.com.githubchecker.models.Diff;
 import alex.com.githubchecker.models.api.PullRequest;
 import alex.com.githubchecker.models.dagger.GithubModel;
 import alex.com.githubchecker.utils.SchedulerUtils;
-import butterknife.ButterKnife;
-import io.reactivex.ObservableSource;
-import io.reactivex.functions.Function;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by Alex on 11/11/2017.
  */
 
-public class PRDiffPresenter {
+class PRDiffPresenter {
 
     private PRDiffView view;
     private GithubModel model;
     private Integer pullRequestId;
+    private CompositeDisposable disposables = new CompositeDisposable();
 
-    public PRDiffPresenter(GithubModel model, PRDiffView view, Integer pullRequestId) {
+    PRDiffPresenter(GithubModel model, PRDiffView view, Integer pullRequestId) {
         this.model = model;
         this.view = view;
         this.pullRequestId = pullRequestId;
     }
 
-    public void onCreate() {
-
+    void onCreate() {
         view.showLoading(true);
-        model.getPullRequest(pullRequestId)
-                .observeOn(SchedulerUtils.main())
-                .subscribe(pullRequest -> {
-                    view.bindPR(pullRequest);
-                    getDiffForPr(pullRequest);
-                });
+        disposables.add(
+                model.getPullRequest(pullRequestId)
+                        .observeOn(SchedulerUtils.main())
+                        .subscribe(pullRequest -> {
+                            view.bindPR(pullRequest);
+                            getDiffForPr(pullRequest);
+                        }));
     }
 
     private void getDiffForPr(PullRequest pullRequest) {
         view.showLoading(true);
-        model.getDiffForPr(pullRequest)
-                .observeOn(SchedulerUtils.main())
-                .subscribe(view::bindDiff);
+        disposables.add(
+                model.getDiffForPr(pullRequest)
+                        .observeOn(SchedulerUtils.main())
+                        .subscribe(view::bindDiff));
     }
 
+    void onStop() {
+        disposables.clear();
+    }
 }

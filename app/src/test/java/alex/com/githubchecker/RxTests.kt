@@ -1,7 +1,10 @@
 package alex.com.githubchecker
 
 
+import android.content.ClipData.Item
+import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.exceptions.OnErrorNotImplementedException
 import io.reactivex.functions.Function
 import io.reactivex.plugins.RxJavaPlugins
@@ -121,6 +124,31 @@ class RxTests {
     }
 
     @Test
+    fun exampleFunction() {
+
+        // Create Observables
+        val observable = Observable.just(1, 2, 3)   //Observable from operator
+                .map { it * 10 }                    //Operator #2
+                .startWith(Observable.just(0))      //Operator #3
+                .concatWith(Observable.just(4))     //Operator #4
+        val observableList = observable.toList()    //Operator #5
+
+        // Assert
+        val observer = observable.test()
+        observer.assertValueSequence(listOf(0, 10, 20, 30, 4))
+
+        val listObserver = observableList.test()
+        listObserver.assertResult(listOf(0, 10, 20, 30, 4))
+
+    }
+
+
+    //How many times does Operator #1 run?
+    //When does operator #1 run?
+    //What if an operator must operate on a different thread?
+    //What is the lifecycle of the observable? The observer?
+
+    @Test
     fun threadTest1() {
 
         var didPrint = false
@@ -216,6 +244,42 @@ class RxTests {
         //Disposing of Observers: "heres a kill switch. for me"
         //Observables have normal object lifecycle
     }
+
+    fun loadList() {
+
+    }
+
+    //Works, but not interruptible and single threaded
+    fun getJsonList():List<Data> {
+        val results = ArrayList<Data>()
+        for (file in getAllFiles()) {
+            results.add(instantiateObject(file))
+        }
+        return results
+    }
+
+    //Interruptible, but still blocking
+    fun getJsonListDisposable(): Single<List<Data>> {
+        return Observable.fromIterable(getAllFiles())
+                .map { instantiateObject(it) }
+                .toList()
+    }
+
+    //Ideal
+    fun getJsonListRx(): Observable<Data> {
+        return Observable.fromIterable(getAllFiles())
+                .map { instantiateObject(it) }
+    }
+
+    private fun getAllFiles(): List<String> {
+        return listOf()
+    }
+
+    private fun instantiateObject(data: String): Data {
+        return Data()
+    }
+
+    inner class Data
 
     @Test
     public fun emitterStopsEmittingIfDisposed() {

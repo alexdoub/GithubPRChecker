@@ -45,4 +45,10 @@ public class PRDiffActivity extends BaseActivity {
         setContentView(view.view());
         presenter.onCreate();
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.onStop();
+    }
 }
