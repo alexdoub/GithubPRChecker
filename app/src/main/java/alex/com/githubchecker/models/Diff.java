@@ -4,12 +4,9 @@ import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.BackgroundColorSpan;
-import android.widget.Toast;
 
 import alex.com.githubchecker.R;
 import alex.com.githubchecker.components.app.GithubCheckerApp;
-import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
 import timber.log.Timber;
 
 /**
@@ -41,8 +38,8 @@ public class Diff {
 
         //Set static colors -- this is only done once
         if (SubtractionsColor == 0 || AdditionsColor == 0) {
-            SubtractionsColor = GithubCheckerApp.getAppComponent().provideContext().getResources().getColor(R.color.diff_subtraction);
-            AdditionsColor = GithubCheckerApp.getAppComponent().provideContext().getResources().getColor(R.color.diff_addition);
+            SubtractionsColor = GithubCheckerApp.appComponent.provideContext().getResources().getColor(R.color.diff_subtraction);
+            AdditionsColor = GithubCheckerApp.appComponent.provideContext().getResources().getColor(R.color.diff_addition);
         }
 
         String[] contentArr = content.split("\n");
