@@ -7,11 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.ProgressBar
-import android.widget.ScrollView
 import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
+import kotlinx.android.synthetic.main.activity_prdiff.additions_tv
+import kotlinx.android.synthetic.main.activity_prdiff.container
+import kotlinx.android.synthetic.main.activity_prdiff.subtractions_tv
+import kotlinx.android.synthetic.main.activity_prlist.loading
 import javax.inject.Inject
 
 /**
@@ -19,45 +19,30 @@ import javax.inject.Inject
  */
 
 class PRDiffView @Inject
-constructor(context: PRDiffActivity) {
-
-    @JvmField
-    @BindView(R.id.subtractions_tv)
-    var subtractionsTv: TextView? = null
-    @JvmField
-    @BindView(R.id.additions_tv)
-    var additionsTv: TextView? = null
-    @JvmField
-    @BindView(R.id.container)
-    var containerSv: ScrollView? = null
-    @JvmField
-    @BindView(R.id.loading)
-    var loadingView: ProgressBar? = null
-
-    val view: View
+constructor(private val context: PRDiffActivity) {
 
     init {
         val parent = FrameLayout(context)
         parent.layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        view = LayoutInflater.from(context).inflate(R.layout.activity_prdiff, parent, true)
-        ButterKnife.bind(this, view)
+        LayoutInflater.from(context).inflate(R.layout.activity_prdiff, parent, true)
+        context.setContentView(R.layout.activity_prdiff)
 
-        subtractionsTv!!.setHorizontallyScrolling(true)
-        additionsTv!!.setHorizontallyScrolling(true)
+        context.subtractions_tv.setHorizontallyScrolling(true)
+        context.additions_tv.setHorizontallyScrolling(true)
     }
 
     internal fun bindPR(pullRequest: PullRequest) {
-        (view.context as PRDiffActivity).supportActionBar!!.title = view.context.getString(R.string.activity_pr_diff, pullRequest.number)
+        context.supportActionBar!!.title = context.getString(R.string.activity_pr_diff, pullRequest.number)
     }
 
     internal fun bindDiff(diff: Diff) {
         showLoading(false)
-        subtractionsTv!!.setText(diff.subtractionsSpan, TextView.BufferType.SPANNABLE)
-        additionsTv!!.setText(diff.additionsSpan, TextView.BufferType.SPANNABLE)
+        context.subtractions_tv.setText(diff.subtractionsSpan, TextView.BufferType.SPANNABLE)
+        context.additions_tv.setText(diff.additionsSpan, TextView.BufferType.SPANNABLE)
     }
 
     internal fun showLoading(loading: Boolean) {
-        containerSv!!.visibility = if (!loading) View.VISIBLE else View.GONE
-        loadingView!!.visibility = if (loading) View.VISIBLE else View.GONE
+        context.container.visibility = if (!loading) View.VISIBLE else View.GONE
+        context.loading.visibility = if (loading) View.VISIBLE else View.GONE
     }
 }

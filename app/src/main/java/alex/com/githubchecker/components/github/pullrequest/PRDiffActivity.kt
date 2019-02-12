@@ -6,14 +6,13 @@ import alex.com.githubchecker.models.dagger.GithubModel
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import butterknife.ButterKnife
 import javax.inject.Inject
 
 /**
  * Created by Alex on 11/17/2017.
  */
 
-public class PRDiffActivity : BaseActivity() {
+class PRDiffActivity : BaseActivity() {
 
     companion object {
 
@@ -35,15 +34,13 @@ public class PRDiffActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val pullRequestId = intent.getIntExtra(KEY_PR_ID, 0)
-
-        ButterKnife.bind(this)
         GithubCheckerApp.githubComponent.inject(this)
 
         view = PRDiffView(this)
-        presenter = PRDiffPresenter(githubModel!!, view, pullRequestId)
 
-        setContentView(view.view)
+        val pullRequestId = intent.getIntExtra(KEY_PR_ID, 0)
+        presenter = PRDiffPresenter(githubModel, view, pullRequestId)
+
         presenter.onCreate()
     }
 

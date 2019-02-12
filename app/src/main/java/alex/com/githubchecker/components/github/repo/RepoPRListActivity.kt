@@ -4,7 +4,6 @@ import alex.com.githubchecker.components.app.BaseActivity
 import alex.com.githubchecker.components.app.GithubCheckerApp
 import alex.com.githubchecker.models.dagger.GithubModel
 import android.os.Bundle
-import butterknife.ButterKnife
 import javax.inject.Inject
 
 /**
@@ -22,13 +21,10 @@ class RepoPRListActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        ButterKnife.bind(this)
         GithubCheckerApp.githubComponent.inject(this)
 
         view = RepoPRListView(this)
         presenter = RepoPRListPresenter(githubModel!!, view)
-
-        setContentView(view.view)
         presenter.onCreate()
     }
 
