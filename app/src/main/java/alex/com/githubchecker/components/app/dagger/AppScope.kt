@@ -1,8 +1,5 @@
 package alex.com.githubchecker.components.app.dagger
 
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
-
 import javax.inject.Scope
 
 /**
@@ -10,5 +7,5 @@ import javax.inject.Scope
  */
 
 @Scope
-@Retention(RetentionPolicy.CLASS)
+@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
 internal annotation class AppScope

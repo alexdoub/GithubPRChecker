@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Github PR Checker</string>
-    <string name="activity_pull_requests">PRs for %s by %s</string>
+    <string name="activity_pull_requests">PRs for %1s by %2s</string>
     <string name="activity_pr_diff">Diff for PR #%d</string>
 
     <!--List-->
     <string name="select_pull_request">Select a Pull Request</string>
     <string name="refresh_pull_requests">Refresh Pull Requests</string>
-    <string name="pr_content">#%d created at %s by %s</string>
+    <string name="pr_content">#%1d created at %2s by %3s</string>
 
     <!--Diff-->
 </resources>

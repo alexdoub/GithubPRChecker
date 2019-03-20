@@ -4,6 +4,7 @@ import alex.com.githubchecker.components.app.GithubCheckerApp
 import alex.com.githubchecker.components.app.api.APIClient
 import alex.com.githubchecker.components.app.data.DataManager
 import alex.com.githubchecker.models.Diff
+import alex.com.githubchecker.models.DiffParser
 import alex.com.githubchecker.models.api.PullRequest
 import alex.com.githubchecker.utils.SchedulerUtils
 import android.widget.Toast
@@ -17,7 +18,7 @@ import io.reactivex.subjects.PublishSubject
  */
 
 class GithubModel(private val apiClient: APIClient, private val dataManager: DataManager) {
-    val pullRequestsSubject: BehaviorSubject<List<PullRequest>>
+    val pullRequestsSubject: BehaviorSubject<List<PullRequest>> = BehaviorSubject.create()
     private val disposables = CompositeDisposable()
 
     val owner: String
@@ -25,10 +26,6 @@ class GithubModel(private val apiClient: APIClient, private val dataManager: Dat
 
     val repo: String
         get() = dataManager.currentRepoSubject.value!!
-
-    init {
-        pullRequestsSubject = BehaviorSubject.create()
-    }
 
     fun getPullRequests() {
         disposables.add(apiClient.getPullRequests(dataManager.currentUserSubject.value!!, dataManager.currentRepoSubject.value!!)
@@ -50,13 +47,13 @@ class GithubModel(private val apiClient: APIClient, private val dataManager: Dat
 
                     //Notify user of expensive operation
                     if (rawDiff.length > 15000) {
-                        Toast.makeText(GithubCheckerApp.appComponent!!.provideContext(), "Processing large diff, this could take some time.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(GithubCheckerApp.appComponent.provideContext(), "Processing large diff, this could take some time.", Toast.LENGTH_SHORT).show()
                     }
 
                     //Do computation on computation thread
                     Observable.just(rawDiff)
                             .observeOn(SchedulerUtils.compute())
-                            .subscribe { input -> diffPublishSubject.onNext(Diff.Parse(input)) }
+                            .subscribe { input -> diffPublishSubject.onNext(DiffParser.parse(input)) }
                 })
 
         return diffPublishSubject

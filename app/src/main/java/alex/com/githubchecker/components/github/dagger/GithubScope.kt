@@ -1,8 +1,5 @@
 package alex.com.githubchecker.components.github.dagger
 
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
-
 import javax.inject.Scope
 
 /**
@@ -10,5 +7,5 @@ import javax.inject.Scope
  */
 
 @Scope
-@Retention(RetentionPolicy.CLASS)
+@Retention(AnnotationRetention.RUNTIME)
 internal annotation class GithubScope
