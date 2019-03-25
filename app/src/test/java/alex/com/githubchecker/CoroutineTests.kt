@@ -1,30 +1,33 @@
 package alex.com.githubchecker
 
-
-import android.content.ClipData.Item
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.exceptions.OnErrorNotImplementedException
+import io.reactivex.functions.Function
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.schedulers.TestScheduler
 import io.reactivex.subjects.PublishSubject
-
 import junit.framework.Assert.assertEquals
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import java.io.IOException
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeUnit.MILLISECONDS
 import java.util.concurrent.TimeUnit.SECONDS
-
 
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
  * @see [Testing documentation](http://d.android.com/tools/testing)
  */
-class RxTests {
+class CoroutineTests {
 
     private val errorHandlerExceptions: PublishSubject<Throwable> = PublishSubject.create()
 
@@ -37,24 +40,6 @@ class RxTests {
     }
 
     @Test
-    fun assertSameConditionalsForModel() {
-        val someModel = SomeModel()
-        someModel.id = null
-        assertSameConditionals(someModel)
-        someModel.id = ""
-        assertSameConditionals(someModel)
-        someModel.id = "1"
-        assertSameConditionals(someModel)
-    }
-    fun assertSameConditionals(someModel: SomeModel) {
-        val oldConditional = someModel.id?.isNotEmpty() == true
-        val newConditional = someModel.id?.isEmpty() == false
-        assertEquals(oldConditional, newConditional)
-    }
-
-    class SomeModel { var id: String? = null }
-
-    @Test
     @Throws(Exception::class)
     fun addition_isCorrect() {
         assertEquals(4, (2 + 2).toLong())
@@ -62,7 +47,7 @@ class RxTests {
 
     @Test
     fun retryUntilDone() {
-        countUpUntilError()
+        countUpWithRandomError()
                 .retry()    //Retry block catches exception, it goes to default error handler as UndeliverableException
                 .toList()
                 .test()
@@ -77,7 +62,7 @@ class RxTests {
 
     @Test
     fun retryUntilDoneWithKnownSize() {
-        countUpUntilError() //1->7 1->2 1-> 10
+        countUpWithRandomError() //1->7 1->2 1-> 10
                 .retry()
                 .takeLast(5)
                 .toList()
@@ -88,7 +73,8 @@ class RxTests {
 
     @Test
     fun retryUntilDoneWithUnknownSize() {
-        countUpUntilError() //1->7 1->2 1-> 10
+
+        countUpWithRandomError()    //50% chance of throwing exception
                 .toList()
                 .retry()
                 .test()
@@ -97,13 +83,29 @@ class RxTests {
 
     @Test
     fun assertionsWorkInSubscriptions() {
-        Observable.create<String> {
-            it.onError(IOException())
+
+        Observable.create<String> { source ->
+            source.onError(IOException())
         }
                 .test()
                 .assertError(IOException::class.java)
     }
 
+    @Test
+    fun resumeWithDefault() {
+
+        Observable.error<Int>(IOException())
+                .startWith(countUp())
+                .onErrorResumeNext(Function {
+                    return@Function Observable.just(999)
+                })
+                .toList()
+                .test()
+                .assertNoErrors()
+                .assertValue { it ->
+                    return@assertValue it.last() == 999
+                }
+    }
 
     @Test
     fun errorBlockSwallowsException() {
@@ -125,31 +127,6 @@ class RxTests {
                 .test()
                 .assertError(OnErrorNotImplementedException::class.java)
     }
-
-    @Test
-    fun exampleFunction() {
-
-        // Create Observables
-        val observable = Observable.just(1, 2, 3)   //Observable from operator
-                .map { it * 10 }                    //Operator #2
-                .startWith(Observable.just(0))      //Operator #3
-                .concatWith(Observable.just(4))     //Operator #4
-        val observableList = observable.toList()    //Operator #5
-
-        // Assert
-        val observer = observable.test()
-        observer.assertValueSequence(listOf(0, 10, 20, 30, 4))
-
-        val listObserver = observableList.test()
-        listObserver.assertResult(listOf(0, 10, 20, 30, 4))
-
-    }
-
-
-    //How many times does Operator #1 run?
-    //When does operator #1 run?
-    //What if an operator must operate on a different thread?
-    //What is the lifecycle of the observable? The observer?
 
     @Test
     fun threadTest1() {
@@ -212,12 +189,9 @@ class RxTests {
 
         //subscribeOn points to a scheduler, scheduler does action when it executes
 
-
         //NOTE99: If you're binding in an Rx subscription, observeOn main!
 
-
         //Flowables have buffer
-
 
         //Subscribe flow
         //create observable
@@ -234,12 +208,10 @@ class RxTests {
         //              every operator disposed
         //emitter stops emitting if nothing is observing
 
-
         //MENTION
         //Dont repeat computation in separate subscriptions, move common observers to the same chain
         //terminate computation early
         //use simpler observables, use convenience functions Observable.create, etc.
-
 
         //how does subscription tie shit together??
         //subscribe returns disposable... disposable is a block
@@ -248,41 +220,58 @@ class RxTests {
         //Observables have normal object lifecycle
     }
 
-    fun loadList() {
+    @Test
+    fun threadTest2() {
+
+        val trianglesObservable = Observable.fromIterable(1..100)   //  1
+                .map { multiplyByTwo(it) }                                 //  2
+                    .observeOn(Schedulers.computation())                   //  3
+                .flatMap { numberToCircle((it)) }                          //  4
+                    .observeOn(Schedulers.computation())                   //  5
+                .flatMap( { circleToSquare((it)) }, 5)      //  6
+                    .observeOn(Schedulers.io())                            //  7
+                .flatMap { squareToTriangle((it)) }                        //  8
+                .flatMap { triangleToSphere((it)) }                        //  9
+                    .subscribeOn(AndroidSchedulers.mainThread())           // 10
+                    .subscribeOn(Schedulers.io())                          // 11
+
+        val sub1 = trianglesObservable.subscribe()                          // 13
+        Thread.sleep(1000)                                           // 14
+        val sub2 = trianglesObservable.subscribe()                         // 15
+
+
 
     }
 
-    //Works, but not interruptible and single threaded
-    fun getJsonList():List<Data> {
-        val results = ArrayList<Data>()
-        for (file in getAllFiles()) {
-            results.add(instantiateObject(file))
-        }
-        return results
+    fun multiplyByTwo(number: Int): Int {
+        printThread("Multiply by Two")
+        return number * 2
     }
 
-    //Interruptible, but still blocking
-    fun getJsonListDisposable(): Single<List<Data>> {
-        return Observable.fromIterable(getAllFiles())
-                .map { instantiateObject(it) }
-                .toList()
+    fun numberToCircle(number: Int): Observable<Circle> {
+        printThread("Number to Circle")
+        return Observable.just(Circle())
     }
 
-    //Ideal
-    fun getJsonListRx(): Observable<Data> {
-        return Observable.fromIterable(getAllFiles())
-                .map { instantiateObject(it) }
+    fun circleToSquare(item: Circle): Observable<Square> {
+        printThread("Circle to Square")
+        return Observable.just(Square())
     }
 
-    private fun getAllFiles(): List<String> {
-        return listOf()
+    fun squareToTriangle(item: Square): Observable<Triangle> {
+        printThread("Square to Triangle")
+        return Observable.just(Triangle())
     }
 
-    private fun instantiateObject(data: String): Data {
-        return Data()
+    fun triangleToSphere(item: Triangle): Observable<Sphere> {
+        printThread("Square to Sphere")
+        return Observable.just(Sphere())
     }
 
-    inner class Data
+    class Square
+    class Triangle
+    class Circle
+    class Sphere
 
     @Test
     public fun emitterStopsEmittingIfDisposed() {
@@ -304,11 +293,9 @@ class RxTests {
         //operator flips a bitch
         //subscription terminates before emitter done
 
-
         val scheduler = TestScheduler()
         val observable = Observable.interval(1, TimeUnit.SECONDS, scheduler)
-        val testObserver = observable
-                .test()
+        val testObserver = observable.test()
 
         testObserver.assertNoValues()
 
@@ -323,8 +310,7 @@ class RxTests {
 //        scheduler.advanceTimeBy(100, SECONDS)
 //        testObserver.assertValues(0L, 1L)
 
-
-//        Thread.sleep(2000)    no effect
+//        Thread.sleep(2000)    no effecttttt
 
         val testObserver2 = observable.test()
 
@@ -336,7 +322,7 @@ class RxTests {
         testObserver2.assertValues(0L)
 
         //when does observable die? does it just live forever shitting up memory? what if it emits 1000x items per sec?
-            //untill they terminal event or are garbage collected
+        //untill they terminal event or are garbage collected
         //Observable does not run at all unless something subscribes to it.
     }
 
@@ -355,19 +341,45 @@ class RxTests {
         //observable re-emits for each subscriber
     }
 
-
-
-
     fun doObservablesDispose() {
         Observable.fromPublisher<Int> { source ->
             (0..10).forEach {
-               // source.
+                // source.
             }
         }
     }
 
+    @Test
+    fun typeTest() {
+
+        Observable.fromIterable(1..10)  // Observable
+                .map { return@map it.toString() } // Operator #1
+                .map { return@map it.toFloat() } // Operator #2
+                .map { return@map it.toInt() } // Operator #3
+                .toList() // Operator #4
+                .test() // Creates Test Observer that invokes subscribe()
+                .assertResult((1..10).toList())
+
+
+        (1..10).map {
+            it.toString()
+        }.map {
+            it.toFloat()
+        }.map {
+            it.toInt()
+        }.toList()
+
+        val o1 = Observable.fromIterable(1..10)  // Observable
+        val o2 = o1.map { return@map it.toString() } // Operator #1
+        val o3 = o2.map { return@map it.toFloat() } // Operator #2
+        val o4 = o3.map { return@map it.toInt() } // Operator #3
+        val o5 = o4.toList() // Operator #4
+        val testObserver = o5.test() // Creates Test Observer that invokes subscribe()
+        testObserver.assertResult((1..10).toList())
+    }
+
     private val countUpItems = (1..5).toList()
-    private fun countUpUntilError(): Observable<Int> {
+    private fun countUpWithRandomError(): Observable<Int> {
         return Observable.create<Int> { source ->
             countUpItems.forEach { num ->
                 if (Math.random() > 0.5) {
@@ -386,7 +398,71 @@ class RxTests {
         return Observable.fromIterable(countUpItems)
     }
 
-    private fun printThread(tag: String, thread: Thread = Thread.currentThread()) {
-        println("$tag. Thread: ${thread.id} - ${thread.name}")
+    val tags = ConcurrentHashMap<String, Boolean>()
+    private fun printThread(tag: String, thread: Thread = Thread.currentThread(), doOnce: Boolean = true) {
+
+        synchronized(tags) {
+            if (doOnce && tags.getOrDefault(tag, false)) return
+
+            var printTag = tag
+            while (printTag.length < 25) {
+                printTag += " "
+            }
+
+            println("$printTag Thread ID: ${thread.id} - Name:${thread.name}")
+            tags[tag] = true
+        }
+    }
+
+
+
+    @Test
+    fun synctest() {
+        runBlocking {
+            val set = HashSet<Int>().apply {
+                for (i in 69..420) {
+                    add(i)
+                }
+            }
+
+            GlobalScope.launch {
+                set.forEach {
+                    print(it)
+                    delay(10)
+                }
+            }
+
+            GlobalScope.launch {
+                delay(420)
+                set.clear()
+            }
+
+            delay(4200)
+        }
+    }
+
+    @Test
+    fun synctestRx() {
+        runBlocking {
+            val set = HashSet<Int>().apply {
+                for (i in 69..420) {
+                    add(i)
+                }
+            }
+
+            Observable.fromIterable(set).map {
+                GlobalScope.launch {
+                    delay(10)
+                    System.out.println(it)
+                }
+            }
+
+            GlobalScope.launch {
+                delay(420)
+                set.clear()
+            }
+
+            delay(4200)
+        }
     }
 }
