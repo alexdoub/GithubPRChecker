@@ -33,8 +33,8 @@ class RepoPRListActivity : BaseActivity() {
         presenter.onStart()
     }
 
-    override fun onStop() {
-        super.onStop()
-        presenter.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
     }
 }

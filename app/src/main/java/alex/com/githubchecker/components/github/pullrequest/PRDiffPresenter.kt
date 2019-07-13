@@ -33,7 +33,9 @@ internal class PRDiffPresenter(private val model: GithubModel, private val view:
                         })
     }
 
-    fun onStop() {
+
+
+    fun onDestroy() {
         disposables.clear()
     }
 }

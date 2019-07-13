@@ -30,7 +30,7 @@ internal class RepoPRListPresenter(private val model: GithubModel, private val v
         view.bindRepo(model)
     }
 
-    fun onStop() {
+    fun onDestroy() {
         disposables.clear()
     }
 
