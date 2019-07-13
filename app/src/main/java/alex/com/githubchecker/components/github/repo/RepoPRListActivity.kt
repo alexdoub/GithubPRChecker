@@ -18,13 +18,13 @@ class RepoPRListActivity : BaseActivity() {
     @Inject
     lateinit var githubModel: GithubModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstance: Bundle?) {
+        super.onCreate(savedInstance)
 
         GithubCheckerApp.githubComponent.inject(this)
 
         view = RepoPRListView(this)
-        presenter = RepoPRListPresenter(githubModel!!, view)
+        presenter = RepoPRListPresenter(githubModel, view)
         presenter.onCreate()
     }
 
