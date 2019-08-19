@@ -78,4 +78,3 @@ Example data flow for selecting a PullRequest:
 6) Model parses raw diff into diff object (expensive for large diffs)
 7) Presenter recieves processed Diff model via subscription, passes to view
 8) View binds data
-
