@@ -9,10 +9,9 @@ import androidx.room.PrimaryKey
  */
 
 @Entity(tableName = "user_table")
-class UserEntity {
-    @PrimaryKey
-    @NonNull
-    var id: String = ""
+class UserEntity(@PrimaryKey
+                 @NonNull
+                 var id: Int) {
     var login: String? = null
 }
 

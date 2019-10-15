@@ -10,10 +10,9 @@ import com.google.gson.annotations.SerializedName
  */
 
 @Entity(tableName = "commit_table")
-class CommitEntity {
-    @PrimaryKey
-    @NonNull
-    var id: Int = 0
-    var userId: String? = null
+class CommitEntity(@PrimaryKey
+                   @NonNull
+                   var id: Int) {
+    var userId: Int? = null
 }
 

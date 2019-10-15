@@ -11,11 +11,9 @@ import com.google.gson.annotations.SerializedName
  */
 
 @Entity(tableName = "pullrequest_table")
-class PullRequestEntity {
-
-    @PrimaryKey
-    @NonNull
-    var id: Int = 0
+class PullRequestEntity(@PrimaryKey
+                        @NonNull
+                        var id: Int) {
     var title: String? = null
     var number: Int? = null
     var createdAt: String? = null

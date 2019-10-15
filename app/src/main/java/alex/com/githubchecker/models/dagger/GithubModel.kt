@@ -32,7 +32,7 @@ class GithubModel(application: Application, private val apiClient: APIClient, pr
         get() = sessionDataManager.currentRepoSubject.value!!
 
     init {
-        // Observe pull request saves
+        // Observe DB, produce UI models
         repository.allPullRequests.observeForever(Observer{
             val pullRequests: List<PullRequest> = it.map {
                 PullRequest().apply {
@@ -50,7 +50,7 @@ class GithubModel(application: Application, private val apiClient: APIClient, pr
         disposables.add(apiClient.getPullRequests(sessionDataManager.currentUserSubject.value!!, sessionDataManager.currentRepoSubject.value!!)
                 .observeOn(SchedulerUtils.main())
                 .subscribe {
-                    repository.insert(*it.toTypedArray())
+                    repository.save(it)
                 })
     }
 

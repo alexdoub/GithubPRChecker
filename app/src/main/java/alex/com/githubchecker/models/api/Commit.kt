@@ -6,7 +6,7 @@ package alex.com.githubchecker.models.api
 
 class Commit : BaseModel() {
 
-    private val user: User? = null
+    val user: User? = null
 
     val userLogin: String?
         get() = user?.login

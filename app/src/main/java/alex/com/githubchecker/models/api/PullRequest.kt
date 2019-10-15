@@ -11,7 +11,7 @@ class PullRequest : BaseModel() {
     //Accessors methods
     var title: String? = null
     var number: Int? = null
-    private val head: Commit? = null
+    val head: Commit? = null
     var createdAt: String? = null
     @SerializedName("diff_url")
     var diffUrl: String? = null

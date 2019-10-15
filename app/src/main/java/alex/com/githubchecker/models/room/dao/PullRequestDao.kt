@@ -1,6 +1,9 @@
 package alex.com.githubchecker.models.room.dao
 
+import alex.com.githubchecker.models.api.PullRequest
+import alex.com.githubchecker.models.room.entities.CommitEntity
 import alex.com.githubchecker.models.room.entities.PullRequestEntity
+import alex.com.githubchecker.models.room.entities.UserEntity
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
@@ -22,8 +25,22 @@ interface PullRequestDao {
     @get:Query("SELECT * from pullrequest_table ORDER BY id ASC")
     val pullRequestsSorted: LiveData<List<PullRequestEntity>>
 
+//    @get:Query(
+//            "SELECT * from pullrequest_table " +
+//                    "INNER JOIN commit_table ON commit.id = commitId " +
+//                    "INNER JOIN user_table ON user.id = commit.userId " +
+//                    "ORDER BY id ASC"
+//    )
+//    val pullRequestsSorted2: LiveData<List<PullRequest>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg entity: PullRequestEntity)
+    fun insertPullRequests(entity: List<PullRequestEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertCommits(entity: List<CommitEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertUsers(entity: List<UserEntity>)
 
     @Query("DELETE FROM pullrequest_table")
     fun deleteAll()
