@@ -80,15 +80,3 @@ dependencies {
 repositories {
     mavenCentral()
 }
-
-// By default, the Kotlin compiler targets Java 6. This means that if you are using Java 8 source compatibility
-// in your Java code, you can’t use Java 8 features, like calling to default interfaces of Java classes, in Kotlin code.
-// This snippet enables Java 8 support for Kotlin
-//tasks.withType(KotlinCompile).all {
-//    sourceCompatibility = java_version
-//    targetCompatibility = java_version
-//
-//    kotlinOptions {
-//        jvmTarget = jvm_target_version
-//    }
-//}

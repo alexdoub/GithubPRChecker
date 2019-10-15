@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/GithubPRChecker.iml" filepath="$PROJECT_DIR$/.idea/GithubPRChecker.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Procore-GithubPRChecker.iml" filepath="$PROJECT_DIR$/Procore-GithubPRChecker.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GithubPRChecker.iml" filepath="$PROJECT_DIR$/GithubPRChecker.iml" />
     </modules>
   </component>
 </project>
