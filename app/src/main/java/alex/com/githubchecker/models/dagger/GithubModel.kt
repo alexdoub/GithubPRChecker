@@ -33,7 +33,6 @@ class GithubModel(application: Application, private val apiClient: APIClient, pr
 
     init {
         // Observe DB, produce UI models
-        // @@TODO: REPLACE WITH BETTER QUERY
         repository.allPullRequests.observeForever(Observer{
             val pullRequests: List<PullRequest> = it.map {
                 PullRequest().apply {

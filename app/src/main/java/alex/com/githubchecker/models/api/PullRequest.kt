@@ -1,6 +1,5 @@
 package alex.com.githubchecker.models.api
 
-import androidx.room.Embedded
 import com.google.gson.annotations.SerializedName
 
 /**
