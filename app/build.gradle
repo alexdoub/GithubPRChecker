@@ -26,10 +26,6 @@ android {
     }
 }
 
-ext {
-    daggerVersion = '2.15'
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "androidx.appcompat:appcompat:1.1.0"
@@ -48,6 +44,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 
     //Dagger
+    def daggerVersion = '2.15'
     implementation "com.google.dagger:dagger-android:${daggerVersion}"
     implementation "com.google.dagger:dagger-android-support:${daggerVersion}"
     annotationProcessor "com.google.dagger:dagger-android-processor:${daggerVersion}"
@@ -83,3 +80,15 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+// By default, the Kotlin compiler targets Java 6. This means that if you are using Java 8 source compatibility
+// in your Java code, you can’t use Java 8 features, like calling to default interfaces of Java classes, in Kotlin code.
+// This snippet enables Java 8 support for Kotlin
+//tasks.withType(KotlinCompile).all {
+//    sourceCompatibility = java_version
+//    targetCompatibility = java_version
+//
+//    kotlinOptions {
+//        jvmTarget = jvm_target_version
+//    }
+//}
