@@ -43,7 +43,7 @@ class GithubRepository(application: Application) {
     private class insertAsyncTask internal constructor(private val mAsyncTaskDao: PullRequestDao) : AsyncTask<PullRequestEntity, Void, Void>() {
 
         override fun doInBackground(vararg params: PullRequestEntity): Void? {
-            mAsyncTaskDao.insert(params[0])
+            mAsyncTaskDao.insert(*params)
             return null
         }
     }

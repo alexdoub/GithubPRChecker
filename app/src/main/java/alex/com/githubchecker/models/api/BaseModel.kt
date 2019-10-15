@@ -5,5 +5,5 @@ package alex.com.githubchecker.models.api
  */
 
 open class BaseModel {
-    val id: Int? = null
+    var id: Int? = null
 }

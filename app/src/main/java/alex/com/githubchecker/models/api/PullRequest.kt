@@ -9,12 +9,12 @@ import com.google.gson.annotations.SerializedName
 class PullRequest : BaseModel() {
 
     //Accessors methods
-    val title: String? = null
-    val number: Int? = null
+    var title: String? = null
+    var number: Int? = null
     private val head: Commit? = null
-    val createdAt: String? = null
+    var createdAt: String? = null
     @SerializedName("diff_url")
-    val diffUrl: String? = null
+    var diffUrl: String? = null
 
     val commitId: Int?
         get() = head?.id

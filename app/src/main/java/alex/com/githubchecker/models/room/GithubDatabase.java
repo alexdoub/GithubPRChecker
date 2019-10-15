@@ -16,7 +16,10 @@ import alex.com.githubchecker.models.room.entities.UserEntity;
  * The fact that this has very few comments emphasizes its coolness.
  */
 
-@Database(entities = {PullRequestEntity.class, CommitEntity.class, UserEntity.class}, version = 1)
+@Database(entities = {
+        PullRequestEntity.class,
+        CommitEntity.class,
+        UserEntity.class}, version = 1)
 public abstract class GithubDatabase extends RoomDatabase {
 
     public abstract PullRequestDao pullRequestDao();

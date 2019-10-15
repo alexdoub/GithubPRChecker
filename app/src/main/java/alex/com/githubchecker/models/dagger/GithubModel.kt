@@ -10,6 +10,7 @@ import alex.com.githubchecker.models.room.GithubRepository
 import alex.com.githubchecker.utils.SchedulerUtils
 import android.app.Application
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
@@ -22,7 +23,7 @@ import io.reactivex.subjects.PublishSubject
 class GithubModel(application: Application, private val apiClient: APIClient, private val sessionDataManager: SessionDataManager) {
     val pullRequestsSubject: BehaviorSubject<List<PullRequest>> = BehaviorSubject.create()
     private val disposables = CompositeDisposable()
-    private val mRepository = GithubRepository(application)
+    private val repository = GithubRepository(application)
 
     val owner: String
         get() = sessionDataManager.currentUserSubject.value!!
@@ -30,10 +31,27 @@ class GithubModel(application: Application, private val apiClient: APIClient, pr
     val repo: String
         get() = sessionDataManager.currentRepoSubject.value!!
 
+    init {
+        // Observe pull request saves
+        repository.allPullRequests.observeForever(Observer{
+            val pullRequests: List<PullRequest> = it.map {
+                PullRequest().apply {
+                    id = it.id
+                    number = it.number
+                    title = it.title
+                    diffUrl = it.diffUrl
+                }
+            }
+            pullRequestsSubject.onNext(pullRequests)
+        })
+    }
+
     fun getPullRequests() {
         disposables.add(apiClient.getPullRequests(sessionDataManager.currentUserSubject.value!!, sessionDataManager.currentRepoSubject.value!!)
                 .observeOn(SchedulerUtils.main())
-                .subscribe { pullRequestsSubject.onNext(it) })
+                .subscribe {
+                    repository.insert(*it.toTypedArray())
+                })
     }
 
     fun getPullRequest(number: Int?): Observable<PullRequest> {

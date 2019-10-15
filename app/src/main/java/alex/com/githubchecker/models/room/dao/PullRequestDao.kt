@@ -19,15 +19,11 @@ import androidx.room.Query
 @Dao
 interface PullRequestDao {
 
-    // LiveData is a data holder class that can be observed within a given lifecycle.
-    // Always holds/caches latest version of data. Notifies its active observers when the
-    // data has changed. Since we are getting all the contents of the database,
-    // we are notified whenever any of the database contents have changed.
     @get:Query("SELECT * from pullrequest_table ORDER BY id ASC")
     val pullRequestsSorted: LiveData<List<PullRequestEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(word: PullRequestEntity)
+    fun insert(vararg entity: PullRequestEntity)
 
     @Query("DELETE FROM pullrequest_table")
     fun deleteAll()
