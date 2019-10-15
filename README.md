@@ -4,6 +4,9 @@ This app lets you check the line-by-line code difference in a pull request.
 
 The project is designed with Dagger 2, RxJava & MVP paradigms. 
 
+## Current Work In Progress ##
+I'm adding Room to the app for database support. TODO
+
 ## Overview & Notes ##
 
 The components are neatly separated to better facilitate expansion of the app. For example, we could add a new sections to the app representing different parts of Github, or there could be a settings section where you could select a User and/or Repo.
