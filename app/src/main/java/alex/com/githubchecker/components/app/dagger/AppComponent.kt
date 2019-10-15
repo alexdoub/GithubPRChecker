@@ -2,6 +2,7 @@ package alex.com.githubchecker.components.app.dagger
 
 import alex.com.githubchecker.components.app.api.APIClient
 import alex.com.githubchecker.components.app.data.SessionDatamanager
+import android.app.Application
 import android.content.Context
 import dagger.Component
 
@@ -17,4 +18,6 @@ interface AppComponent {
     fun provideDataManager(): SessionDatamanager
 
     fun provideContext(): Context
+
+    fun provideApplication(): Application
 }

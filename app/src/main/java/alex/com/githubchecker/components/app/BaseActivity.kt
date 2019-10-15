@@ -7,8 +7,8 @@ import android.os.PowerManager
 import android.os.PowerManager.ACQUIRE_CAUSES_WAKEUP
 import android.os.PowerManager.FULL_WAKE_LOCK
 import android.os.PowerManager.ON_AFTER_RELEASE
-import android.support.v7.app.AppCompatActivity
 import android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+import androidx.appcompat.app.AppCompatActivity
 
 /**
  * Created by Alex on 11/17/2017.

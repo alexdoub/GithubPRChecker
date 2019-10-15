@@ -41,7 +41,7 @@ internal class RepoPRListPresenter(private val model: GithubModel, private val v
     }
 
     private fun pullRequestTapped(pullrequestId: Int?) {
-        PRDiffActivity.Show(view.context, pullrequestId)
+        PRDiffActivity.Show(view.activity, pullrequestId)
     }
 
     private fun refreshPullRequests() {

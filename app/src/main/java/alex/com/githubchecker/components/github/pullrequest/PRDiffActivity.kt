@@ -16,7 +16,7 @@ class PRDiffActivity : BaseActivity() {
 
     companion object {
 
-        private val KEY_PR_ID = "id"
+        private const val KEY_PR_ID = "id"
 
         fun Show(context: Context, pullRequestId: Int?) {
             val intent = Intent(context, PRDiffActivity::class.java)

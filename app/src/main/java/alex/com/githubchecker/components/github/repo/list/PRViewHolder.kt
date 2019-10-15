@@ -2,8 +2,8 @@ package alex.com.githubchecker.components.github.repo.list
 
 import alex.com.githubchecker.R
 import alex.com.githubchecker.models.api.PullRequest
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_pr.view.status

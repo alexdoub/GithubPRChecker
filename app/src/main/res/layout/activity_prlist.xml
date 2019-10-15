@@ -16,14 +16,14 @@
         android:padding="10dp"
         android:text="@string/select_pull_request" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pull_request_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/refresh_prs"
         android:layout_below="@id/instructions"
         android:orientation="vertical"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <!--Hidden loading view-->
     <ProgressBar

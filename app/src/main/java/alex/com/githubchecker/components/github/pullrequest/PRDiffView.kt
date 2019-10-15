@@ -19,30 +19,30 @@ import javax.inject.Inject
  */
 
 class PRDiffView @Inject
-constructor(private val context: PRDiffActivity) {
+constructor(private val activity: PRDiffActivity) {
 
     init {
-        val parent = FrameLayout(context)
+        val parent = FrameLayout(activity)
         parent.layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        LayoutInflater.from(context).inflate(R.layout.activity_prdiff, parent, true)
-        context.setContentView(R.layout.activity_prdiff)
+        LayoutInflater.from(activity).inflate(R.layout.activity_prdiff, parent, true)
+        activity.setContentView(R.layout.activity_prdiff)
 
-        context.subtractions_tv.setHorizontallyScrolling(true)
-        context.additions_tv.setHorizontallyScrolling(true)
+        activity.subtractions_tv.setHorizontallyScrolling(true)
+        activity.additions_tv.setHorizontallyScrolling(true)
     }
 
     internal fun bindPR(pullRequest: PullRequest) {
-        context.supportActionBar!!.title = context.getString(R.string.activity_pr_diff, pullRequest.number)
+        activity.supportActionBar!!.title = activity.getString(R.string.activity_pr_diff, pullRequest.number)
     }
 
     internal fun bindDiff(diff: Diff) {
         showLoading(false)
-        context.subtractions_tv.setText(diff.subtractionsSpan, TextView.BufferType.SPANNABLE)
-        context.additions_tv.setText(diff.additionsSpan, TextView.BufferType.SPANNABLE)
+        activity.subtractions_tv.setText(diff.subtractionsSpan, TextView.BufferType.SPANNABLE)
+        activity.additions_tv.setText(diff.additionsSpan, TextView.BufferType.SPANNABLE)
     }
 
     internal fun showLoading(loading: Boolean) {
-        context.container.visibility = if (!loading) View.VISIBLE else View.GONE
-        context.loading.visibility = if (loading) View.VISIBLE else View.GONE
+        activity.container.visibility = if (!loading) View.VISIBLE else View.GONE
+        activity.loading.visibility = if (loading) View.VISIBLE else View.GONE
     }
 }

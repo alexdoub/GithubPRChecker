@@ -21,24 +21,24 @@ import javax.inject.Inject
  */
 
 class RepoPRListView @Inject
-constructor(val context: RepoPRListActivity) {
+constructor(val activity: RepoPRListActivity) {
 
     val selectedPRSubject = PublishSubject.create<Int>()
     private val adapter: PRListAdapter
 
     init {
-        val parent = FrameLayout(context)
+        val parent = FrameLayout(activity)
         parent.layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
 
-        LayoutInflater.from(context).inflate(R.layout.activity_prlist, parent, true)
-        context.setContentView(R.layout.activity_prlist)
+        LayoutInflater.from(activity).inflate(R.layout.activity_prlist, parent, true)
+        activity.setContentView(R.layout.activity_prlist)
 
         adapter = PRListAdapter(selectedPRSubject)
-        context.pull_request_recycler_view.adapter = adapter
+        activity.pull_request_recycler_view.adapter = adapter
     }
 
     internal fun bindRepo(model: GithubModel) {
-        context.supportActionBar!!.title = context.getString(R.string.activity_pull_requests, model.repo, model.owner)
+        activity.supportActionBar!!.title = activity.getString(R.string.activity_pull_requests, model.repo, model.owner)
     }
 
     internal fun bindPRList(pullRequests: List<PullRequest>) {
@@ -47,11 +47,11 @@ constructor(val context: RepoPRListActivity) {
     }
 
     internal fun showLoading(loading: Boolean) {
-        context.pull_request_recycler_view.visibility = if (loading) View.GONE else View.VISIBLE
-        context.loading.visibility = if (loading) View.VISIBLE else View.GONE
+        activity.pull_request_recycler_view.visibility = if (loading) View.GONE else View.VISIBLE
+        activity.loading.visibility = if (loading) View.VISIBLE else View.GONE
     }
 
     internal fun getRefreshClicksObservable(): Observable<Any> {
-        return RxView.clicks(context.refresh_prs)
+        return RxView.clicks(activity.refresh_prs)
     }
 }

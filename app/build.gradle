@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
     defaultConfig {
         applicationId "alex.com.githubprchecker"
         minSdkVersion 21
@@ -24,11 +24,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-    //Required to get looper in test, doesnt work
-//    testOptions {
-//        unitTests.returnDefaultValues = true
-//    }
 }
 
 ext {
@@ -37,15 +32,12 @@ ext {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation "androidx.appcompat:appcompat:1.1.0"
 
     //Testing
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     //Util & Convenience
-    implementation 'com.android.support:design:26.1.0'
     debugImplementation 'com.facebook.stetho:stetho:1.5.1'
     debugImplementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
 
@@ -80,10 +72,13 @@ dependencies {
     //Room
     def room_version = "2.2.0"
     implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version" // For Kotlin use kapt instead of annotationProcessor
+    kapt "androidx.room:room-compiler:$room_version" // For Kotlin use kapt instead of annotationProcessor
     implementation "androidx.room:room-ktx:$room_version"// optional - Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-rxjava2:$room_version"// optional - RxJava support for Room
     implementation "androidx.room:room-guava:$room_version"// optional - Guava support for Room, including Optional and ListenableFuture
+
+    // Room
+//    implementation "android.arch.persistence.room:runtime:1.1.1"
 }
 repositories {
     mavenCentral()
