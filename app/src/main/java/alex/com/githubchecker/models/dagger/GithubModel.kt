@@ -2,7 +2,7 @@ package alex.com.githubchecker.models.dagger
 
 import alex.com.githubchecker.components.app.GithubCheckerApp
 import alex.com.githubchecker.components.app.api.APIClient
-import alex.com.githubchecker.components.app.data.DataManager
+import alex.com.githubchecker.components.app.data.SessionDatamanager
 import alex.com.githubchecker.models.Diff
 import alex.com.githubchecker.models.DiffParser
 import alex.com.githubchecker.models.api.PullRequest
@@ -17,18 +17,18 @@ import io.reactivex.subjects.PublishSubject
  * Created by Alex on 11/17/2017.
  */
 
-class GithubModel(private val apiClient: APIClient, private val dataManager: DataManager) {
+class GithubModel(private val apiClient: APIClient, private val sessionDatamanager: SessionDatamanager) {
     val pullRequestsSubject: BehaviorSubject<List<PullRequest>> = BehaviorSubject.create()
     private val disposables = CompositeDisposable()
 
     val owner: String
-        get() = dataManager.currentUserSubject.value!!
+        get() = sessionDatamanager.currentUserSubject.value!!
 
     val repo: String
-        get() = dataManager.currentRepoSubject.value!!
+        get() = sessionDatamanager.currentRepoSubject.value!!
 
     fun getPullRequests() {
-        disposables.add(apiClient.getPullRequests(dataManager.currentUserSubject.value!!, dataManager.currentRepoSubject.value!!)
+        disposables.add(apiClient.getPullRequests(sessionDatamanager.currentUserSubject.value!!, sessionDatamanager.currentRepoSubject.value!!)
                 .observeOn(SchedulerUtils.main())
                 .subscribe { pullRequestsSubject.onNext(it) })
     }
