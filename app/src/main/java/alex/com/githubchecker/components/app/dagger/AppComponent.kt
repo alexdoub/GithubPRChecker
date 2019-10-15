@@ -1,7 +1,7 @@
 package alex.com.githubchecker.components.app.dagger
 
 import alex.com.githubchecker.components.app.api.APIClient
-import alex.com.githubchecker.components.app.data.SessionDatamanager
+import alex.com.githubchecker.components.app.data.SessionDataManager
 import android.app.Application
 import android.content.Context
 import dagger.Component
@@ -15,7 +15,7 @@ import dagger.Component
 interface AppComponent {
     fun provideAPIClient(): APIClient
 
-    fun provideDataManager(): SessionDatamanager
+    fun provideDataManager(): SessionDataManager
 
     fun provideContext(): Context
 

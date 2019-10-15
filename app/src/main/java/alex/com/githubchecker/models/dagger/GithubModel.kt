@@ -2,16 +2,13 @@ package alex.com.githubchecker.models.dagger
 
 import alex.com.githubchecker.components.app.GithubCheckerApp
 import alex.com.githubchecker.components.app.api.APIClient
-import alex.com.githubchecker.components.app.data.SessionDatamanager
+import alex.com.githubchecker.components.app.data.SessionDataManager
 import alex.com.githubchecker.models.Diff
 import alex.com.githubchecker.models.DiffParser
 import alex.com.githubchecker.models.api.PullRequest
-import alex.com.githubchecker.models.room.PullRequestRepository
 import alex.com.githubchecker.utils.SchedulerUtils
 import android.app.Application
-import android.content.Context
 import android.widget.Toast
-import androidx.lifecycle.LiveData
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
@@ -21,20 +18,20 @@ import io.reactivex.subjects.PublishSubject
  * Created by Alex on 11/17/2017.
  */
 
-class GithubModel(application: Application, private val apiClient: APIClient, private val sessionDatamanager: SessionDatamanager) {
+class GithubModel(application: Application, private val apiClient: APIClient, private val sessionDataManager: SessionDataManager) {
     val pullRequestsSubject: BehaviorSubject<List<PullRequest>> = BehaviorSubject.create()
     private val disposables = CompositeDisposable()
     private val mRepository = PullRequestRepository(application)
 //    private val mAllPullRequests: LiveData<List<PullRequest>> =
 
     val owner: String
-        get() = sessionDatamanager.currentUserSubject.value!!
+        get() = sessionDataManager.currentUserSubject.value!!
 
     val repo: String
-        get() = sessionDatamanager.currentRepoSubject.value!!
+        get() = sessionDataManager.currentRepoSubject.value!!
 
     fun getPullRequests() {
-        disposables.add(apiClient.getPullRequests(sessionDatamanager.currentUserSubject.value!!, sessionDatamanager.currentRepoSubject.value!!)
+        disposables.add(apiClient.getPullRequests(sessionDataManager.currentUserSubject.value!!, sessionDataManager.currentRepoSubject.value!!)
                 .observeOn(SchedulerUtils.main())
                 .subscribe { pullRequestsSubject.onNext(it) })
     }

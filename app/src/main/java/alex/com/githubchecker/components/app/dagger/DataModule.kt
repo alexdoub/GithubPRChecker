@@ -1,6 +1,6 @@
 package alex.com.githubchecker.components.app.dagger
 
-import alex.com.githubchecker.components.app.data.SessionDatamanager
+import alex.com.githubchecker.components.app.data.SessionDataManager
 import alex.com.githubchecker.config.Constants
 import android.content.Context
 import android.content.SharedPreferences
@@ -22,8 +22,8 @@ constructor() {
     }
 
     @Provides
-    internal fun providesDatamanager(): SessionDatamanager {
-        return SessionDatamanager()
+    internal fun providesDatamanager(): SessionDataManager {
+        return SessionDataManager()
     }
 }
 
