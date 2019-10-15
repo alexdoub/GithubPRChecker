@@ -1,49 +1,35 @@
 package alex.com.githubchecker.models.room;
 
-/*
- * Copyright (C) 2017 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import android.content.Context;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import alex.com.githubchecker.models.api.PullRequest;
-import alex.com.githubchecker.models.api.R_PullRequest;
+import alex.com.githubchecker.models.room.dao.PullRequestDao;
+import alex.com.githubchecker.models.room.entities.CommitEntity;
+import alex.com.githubchecker.models.room.entities.PullRequestEntity;
+import alex.com.githubchecker.models.room.entities.UserEntity;
 
 /**
  * This is the backend. The database. This used to be done by the OpenHelper.
  * The fact that this has very few comments emphasizes its coolness.
  */
 
-@Database(entities = {R_PullRequest.class}, version = 1)
-public abstract class PullRequestRoomDatabase extends RoomDatabase {
+@Database(entities = {PullRequestEntity.class, CommitEntity.class, UserEntity.class}, version = 1)
+public abstract class GithubDatabase extends RoomDatabase {
 
-    public abstract PullRequestDao wordDao();
+    public abstract PullRequestDao pullRequestDao();
 
     // marking the instance as volatile to ensure atomic access to the variable
-    private static volatile PullRequestRoomDatabase INSTANCE;
+    private static volatile GithubDatabase INSTANCE;
 
-    static PullRequestRoomDatabase getDatabase(final Context context) {
+    static GithubDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
-            synchronized (PullRequestRoomDatabase.class) {
+            synchronized (GithubDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            PullRequestRoomDatabase.class, "pullrequest_database")
+                            GithubDatabase.class, "github_database")
 //                            .addCallback(sRoomDatabaseCallback)
                             .build();
                 }
@@ -78,8 +64,8 @@ public abstract class PullRequestRoomDatabase extends RoomDatabase {
 //
 //        private final PullRequestDao mDao;
 //
-//        PopulateDbAsync(PullRequestRoomDatabase db) {
-//            mDao = db.wordDao();
+//        PopulateDbAsync(GithubDatabase db) {
+//            mDao = db.pullRequestDao();
 //        }
 //
 //        @Override

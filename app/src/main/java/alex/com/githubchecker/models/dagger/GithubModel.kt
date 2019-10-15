@@ -6,6 +6,7 @@ import alex.com.githubchecker.components.app.data.SessionDataManager
 import alex.com.githubchecker.models.Diff
 import alex.com.githubchecker.models.DiffParser
 import alex.com.githubchecker.models.api.PullRequest
+import alex.com.githubchecker.models.room.GithubRepository
 import alex.com.githubchecker.utils.SchedulerUtils
 import android.app.Application
 import android.widget.Toast
@@ -21,8 +22,7 @@ import io.reactivex.subjects.PublishSubject
 class GithubModel(application: Application, private val apiClient: APIClient, private val sessionDataManager: SessionDataManager) {
     val pullRequestsSubject: BehaviorSubject<List<PullRequest>> = BehaviorSubject.create()
     private val disposables = CompositeDisposable()
-    private val mRepository = PullRequestRepository(application)
-//    private val mAllPullRequests: LiveData<List<PullRequest>> =
+    private val mRepository = GithubRepository(application)
 
     val owner: String
         get() = sessionDataManager.currentUserSubject.value!!

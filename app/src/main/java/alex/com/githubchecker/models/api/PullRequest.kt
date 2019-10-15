@@ -13,8 +13,11 @@ class PullRequest : BaseModel() {
     val number: Int? = null
     private val head: Commit? = null
     val createdAt: String? = null
-    @SerializedName("diff_url") val diffUrl: String? = null
+    @SerializedName("diff_url")
+    val diffUrl: String? = null
 
+    val commitId: Int?
+        get() = head?.id
     val userLogin: String?
         get() = head?.userLogin
 }

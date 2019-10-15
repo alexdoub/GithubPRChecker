@@ -1,7 +1,6 @@
-package alex.com.githubchecker.models.api
+package alex.com.githubchecker.models.room.entities
 
 import androidx.annotation.NonNull
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
@@ -10,12 +9,11 @@ import com.google.gson.annotations.SerializedName
  * Created by Alex on 11/17/2017.
  */
 
-@Entity(tableName = "pullrequest_table")
-class R_PullRequest {
-
-    //Accessors methods
+@Entity(tableName = "commit_table")
+class CommitEntity {
     @PrimaryKey
     @NonNull
-    var id: String = ""
+    var id: Int = 0
+    var userId: String? = null
 }
 
