@@ -12,13 +12,16 @@ import com.google.gson.annotations.SerializedName
  */
 
 @Entity(tableName = "pullrequest_table",
-        indices = [Index(value = ["id"])])
-class PullRequestEntity(@PrimaryKey
+        primaryKeys = ["id", "commitId"],
+        indices = [Index(value = ["id"], unique = true), Index(value = ["commitId"], unique = true)])
+class PullRequestEntity(@NonNull
+                        @ColumnInfo(name = "id")
+                        var id: Int,
                         @NonNull
-                        var id: Int) {
+                        @ColumnInfo(name = "commitId")
+                        var commitId: Int) {
     var title: String? = null
     var number: Int? = null
     var createdAt: String? = null
     var diffUrl: String? = null
-    var commitId: Int? = null
 }

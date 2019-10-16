@@ -50,10 +50,9 @@ class GithubRepository(application: Application) {
                 Timber.e("A pull request did not have a reachable CommitID")
             }
 
-            PullRequestEntity(pullRequest.id!!).apply {
+            PullRequestEntity(pullRequest.id!!, pullRequest.commitId!!).apply {
                 this.title = pullRequest.title
                 this.number = pullRequest.number
-                this.commitId = pullRequest.commitId
                 this.createdAt = pullRequest.createdAt
                 this.diffUrl = pullRequest.diffUrl
             }

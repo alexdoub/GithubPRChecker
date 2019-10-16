@@ -23,13 +23,13 @@ interface PullRequestDao {
     @get:Query("SELECT * from pullrequest_table ORDER BY id ASC")
     val pullRequestsSorted: LiveData<List<PullRequestEntity>>
 
-    @get:Query(
-            "SELECT * from pullrequest_table " +
-//                    "INNER JOIN commit_table ON commit.id = commitId " +
-//                    "INNER JOIN user_table ON user.id = commit.userId " +
-                    "ORDER BY id ASC"
-    )
-    val pullRequestsSorted2: LiveData<List<NestedPullRequest>>
+//    @get:Query(
+//            "SELECT * from pullrequest_table " +
+////                    "INNER JOIN commit_table ON commit.id = commitId " +
+////                    "INNER JOIN user_table ON user.id = commit.userId " +
+//                    "ORDER BY id ASC"
+//    )
+//    val pullRequestsSorted2: LiveData<List<NestedPullRequest>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPullRequests(entity: List<PullRequestEntity>)

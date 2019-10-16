@@ -13,11 +13,13 @@ import com.google.gson.annotations.SerializedName
         foreignKeys = [ForeignKey(
                 entity = PullRequestEntity::class,
                 parentColumns = ["commitId"], //from ColumnInfo of User class
-                childColumns = ["id"],
+                childColumns = ["commit_id"],
+                onUpdate = CASCADE,
                 onDelete = CASCADE)],
-        indices = [Index(value = ["userId"])])
-class CommitEntity(@PrimaryKey
-                   @NonNull
+        indices = [Index(value = ["commit_id", "userId"], unique = true)])
+class CommitEntity(@NonNull
+                   @PrimaryKey
+                   @ColumnInfo(name = "commit_id")
                    var id: Int) {
     var userId: Int? = null
 }
