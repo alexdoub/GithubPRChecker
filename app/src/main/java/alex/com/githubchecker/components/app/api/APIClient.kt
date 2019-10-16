@@ -25,7 +25,7 @@ class APIClient(private val _client: OkHttpClient, private val _githubAPI: Githu
     //From the URL provided
     fun getDiffForPullRequest(pullRequest: PullRequest): Observable<String> {
         val req = Request.Builder()
-        req.url(pullRequest.diffUrl!!)
+        req.url(pullRequest.diff_url!!)
         val publishSubject = PublishSubject.create<String>()
 
         _client.newCall(req.build()).enqueue(object : Callback {

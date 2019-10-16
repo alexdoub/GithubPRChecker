@@ -26,9 +26,9 @@ class PRViewHolder(private val containerView: View, selectedPRSubject: PublishSu
 
         _pullRequestNumber = pullRequest.number
 
-        val userLogin = pullRequest.userLogin
+        val userLogin = pullRequest.head?.user?.login
         val number = pullRequest.number
-        val createdAt = pullRequest.createdAt
+        val createdAt = pullRequest.created_at
         val status = containerView.context.resources.getString(R.string.pr_content, number, createdAt, userLogin)
 
         containerView.title.text = pullRequest.title

@@ -7,6 +7,7 @@ import io.reactivex.subjects.BehaviorSubject
  * Created by Alex on 11/12/2017.
  */
 
+//@@TODO: Refactor this out
 class SessionDataManager {
     val currentRepoSubject = BehaviorSubject.createDefault(Constants.GITHUB_REPO)
     val currentUserSubject = BehaviorSubject.createDefault(Constants.GITHUB_USER)

@@ -3,13 +3,11 @@ package alex.com.githubchecker.models.room
 import alex.com.githubchecker.models.api.PullRequest
 import alex.com.githubchecker.models.room.dao.PullRequestDao
 import alex.com.githubchecker.models.room.entities.CommitEntity
-import android.app.Application
-import android.os.AsyncTask
-
-import androidx.lifecycle.LiveData
-
 import alex.com.githubchecker.models.room.entities.PullRequestEntity
 import alex.com.githubchecker.models.room.entities.UserEntity
+import android.app.Application
+import android.os.AsyncTask
+import androidx.lifecycle.LiveData
 import timber.log.Timber
 
 /**
@@ -20,13 +18,15 @@ import timber.log.Timber
 class GithubRepository(application: Application) {
 
     private val PullRequestDao: PullRequestDao
-    val allPullRequests: LiveData<List<PullRequestEntity>>
+    //    val allPullRequests: LiveData<List<PullRequestEntity>>
+    val allPullRequests2: LiveData<List<PullRequestEntity>>
 
     init {
         val db = GithubDatabase.getDatabase(application)
 
         PullRequestDao = db.pullRequestDao()
-        allPullRequests = PullRequestDao.pullRequestsSorted
+//        allPullRequests = PullRequestDao.pullRequestsSorted
+        allPullRequests2 = PullRequestDao.pullRequestsSorted2
     }
 
     fun save(pullRequests: List<PullRequest>) {
@@ -41,20 +41,21 @@ class GithubRepository(application: Application) {
                 Timber.e("A pull request did not have a reachable userID")
             }
 
-            val commitId = pullRequest.head?.id
-            commitId?.let {
-                commitEntities.add(CommitEntity(commitId).apply {
+            val commitSha = pullRequest.head?.sha
+            commitSha?.let {
+                commitEntities.add(CommitEntity(commitSha).apply {
                     this.userId = userId
                 })
             } ?: run {
-                Timber.e("A pull request did not have a reachable CommitID")
+                Timber.e("A pull request did not have a sha")
             }
 
-            PullRequestEntity(pullRequest.id!!, pullRequest.commitId!!).apply {
+            PullRequestEntity(pullRequest.id!!).apply {
                 this.title = pullRequest.title
                 this.number = pullRequest.number
-                this.createdAt = pullRequest.createdAt
-                this.diffUrl = pullRequest.diffUrl
+                this.created_at = pullRequest.created_at
+                this.diff_url = pullRequest.diff_url
+                this.commitSha = pullRequest.head?.sha
             }
         }
         val data = PullRequestInsertionData(pullRequestEntities, commitEntities, userEntities)

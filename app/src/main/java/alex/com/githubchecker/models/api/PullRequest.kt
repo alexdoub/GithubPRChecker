@@ -1,24 +1,16 @@
 package alex.com.githubchecker.models.api
 
-import androidx.room.Embedded
 import com.google.gson.annotations.SerializedName
 
 /**
  * Created by Alex on 11/17/2017.
  */
 
-class PullRequest : BaseModel() {
-
-    //Accessors methods
+class PullRequest {
+    var id: Int? = null
     var title: String? = null
     var number: Int? = null
     val head: Commit? = null
-    var createdAt: String? = null
-    @SerializedName("diff_url")
-    var diffUrl: String? = null
-
-    val commitId: Int?
-        get() = head?.id
-    val userLogin: String?
-        get() = head?.userLogin
+    var created_at: String? = null
+    var diff_url: String? = null
 }

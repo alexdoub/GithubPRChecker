@@ -12,22 +12,13 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "commit_table",
         foreignKeys = [ForeignKey(
                 entity = PullRequestEntity::class,
-                parentColumns = ["commitId"], //from ColumnInfo of User class
-                childColumns = ["commit_id"],
+                parentColumns = ["commitSha"], //from ColumnInfo of User class
+                childColumns = ["sha"],
                 onUpdate = CASCADE,
                 onDelete = CASCADE)],
-        indices = [Index(value = ["commit_id", "userId"], unique = true)])
+        indices = [Index(value = ["sha"], unique = true)])
 class CommitEntity(@NonNull
                    @PrimaryKey
-                   @ColumnInfo(name = "commit_id")
-                   var id: Int) {
+                   var sha: String) {
     var userId: Int? = null
 }
-
-class NestedPullRequest {
-    @Embedded
-    lateinit var pullRequest: PullRequestEntity
-    @Embedded
-    lateinit var commit: CommitEntity
-}
-

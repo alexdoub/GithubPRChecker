@@ -32,15 +32,15 @@ class GithubModel(application: Application, private val apiClient: APIClient, pr
         get() = sessionDataManager.currentRepoSubject.value!!
 
     init {
-        // Observe DB, produce UI models
-        // @@TODO: REPLACE WITH BETTER QUERY
-        repository.allPullRequests.observeForever(Observer{
+        // Observe DB, produce models
+        repository.allPullRequests2.observeForever(Observer{
             val pullRequests: List<PullRequest> = it.map {
                 PullRequest().apply {
                     id = it.id
                     number = it.number
+                    created_at = it.created_at
                     title = it.title
-                    diffUrl = it.diffUrl
+                    diff_url = it.diff_url
                 }
             }
             pullRequestsSubject.onNext(pullRequests)
