@@ -35,19 +35,17 @@ class GithubRepository(application: Application) {
         val pullRequestEntities = pullRequests.map { pullRequest ->
 
             val userId = pullRequest.head?.user?.id
-            userId?.let {
+            val commitSha = pullRequest.head?.sha
+            if (userId != null) {
                 userEntities.add(UserEntity(userId))
-            } ?: run {
-                Timber.e("A pull request did not have a reachable userID")
+            } else {
+                Timber.e("A pull request did not have an associated userID. Skipping user")
             }
 
-            val commitSha = pullRequest.head?.sha
-            commitSha?.let {
-                commitEntities.add(CommitEntity(commitSha).apply {
-                    this.userId = userId
-                })
-            } ?: run {
-                Timber.e("A pull request did not have a sha")
+            if (commitSha != null && userId != null) {
+                commitEntities.add(CommitEntity(commitSha, userId))
+            } else {
+                Timber.e("A pull request did not have an associated sha or user with an ID. Skipping Commit")
             }
 
             PullRequestEntity(pullRequest.id!!).apply {

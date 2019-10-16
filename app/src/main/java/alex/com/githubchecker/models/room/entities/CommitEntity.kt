@@ -19,6 +19,5 @@ import com.google.gson.annotations.SerializedName
         indices = [Index(value = ["sha"], unique = true)])
 class CommitEntity(@NonNull
                    @PrimaryKey
-                   var sha: String) {
-    var userId: Int? = null
-}
+                   var sha: String,
+                   var userId: Int)

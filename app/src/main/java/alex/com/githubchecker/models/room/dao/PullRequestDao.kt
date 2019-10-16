@@ -26,8 +26,8 @@ interface PullRequestDao {
 
     @get:Query(
             "SELECT * from pullrequest_table " +
-                    "INNER JOIN commit_table ON sha = commitSha " +
-//                    "INNER JOIN user_table ON user.id = commit.userId " +
+                    "INNER JOIN commit_table ON commit_table.sha = commitSha " +
+                    "INNER JOIN user_table ON user_table.id = userId " +
                     "ORDER BY id ASC"
     )
     val pullRequestsSorted2: LiveData<List<PullRequestEntity>>
