@@ -5,8 +5,9 @@ import alex.com.githubchecker.components.app.api.APIClient
 import alex.com.githubchecker.components.app.data.SessionDataManager
 import alex.com.githubchecker.models.Diff
 import alex.com.githubchecker.models.DiffParser
-import alex.com.githubchecker.models.api.PullRequest
 import alex.com.githubchecker.models.room.GithubRepository
+import alex.com.githubchecker.models.room.dao.NestedPullRequest2
+import alex.com.githubchecker.models.room.entities.PullRequestEntity
 import alex.com.githubchecker.utils.SchedulerUtils
 import android.app.Application
 import android.widget.Toast
@@ -21,7 +22,7 @@ import io.reactivex.subjects.PublishSubject
  */
 
 class GithubModel(application: Application, private val apiClient: APIClient, private val sessionDataManager: SessionDataManager) {
-    val pullRequestsSubject: BehaviorSubject<List<PullRequest>> = BehaviorSubject.create()
+    val pullRequestsSubject: BehaviorSubject<List<NestedPullRequest2>> = BehaviorSubject.create()
     private val disposables = CompositeDisposable()
     private val repository = GithubRepository(application)
 
@@ -34,16 +35,7 @@ class GithubModel(application: Application, private val apiClient: APIClient, pr
     init {
         // Observe DB, produce models
         repository.allPullRequests2.observeForever(Observer{
-            val pullRequests: List<PullRequest> = it.map {
-                PullRequest().apply {
-                    id = it.pullRequestEntity.id
-                    number = it.pullRequestEntity.number
-                    created_at = it.pullRequestEntity.created_at
-                    title = it.pullRequestEntity.title
-                    diff_url = it.pullRequestEntity.diff_url
-                }
-            }
-            pullRequestsSubject.onNext(pullRequests)
+            pullRequestsSubject.onNext(it)
         })
     }
 
@@ -55,13 +47,13 @@ class GithubModel(application: Application, private val apiClient: APIClient, pr
                 })
     }
 
-    fun getPullRequest(number: Int?): Observable<PullRequest> {
+    fun getPullRequest(number: Int?): Observable<NestedPullRequest2> {
         return pullRequestsSubject
                 .flatMapIterable { items -> items }
-                .filter { item -> item.number!!.toInt() == number!!.toInt() }
+                .filter { item -> item.pullRequestEntity.number!!.toInt() == number!!.toInt() }
     }
 
-    fun getDiffForPr(pullRequest: PullRequest): Observable<Diff> {
+    fun getDiffForPr(pullRequest: PullRequestEntity): Observable<Diff> {
         val diffPublishSubject = PublishSubject.create<Diff>()
         disposables.add(apiClient.getDiffForPullRequest(pullRequest)
                 .observeOn(SchedulerUtils.main())   //Must be main to make the toast

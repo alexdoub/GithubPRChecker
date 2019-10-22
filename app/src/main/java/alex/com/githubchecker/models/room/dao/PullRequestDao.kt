@@ -19,7 +19,7 @@ import androidx.room.*
 interface PullRequestDao {
 
 //    @get:Query("SELECT * from pullrequest_table ORDER BY id ASC")
-//    val pullRequestsSorted1: LiveData<List<PullRequestWithCommit1>>
+//    val pullRequestsSorted1: LiveData<List<NestedPullRequest1>>
 
     @get:Query(
             "SELECT * from pullrequest_table " +
@@ -27,7 +27,7 @@ interface PullRequestDao {
                     "INNER JOIN user_table ON user_table.user_id = userId " +
                     "ORDER BY pullrequest_table.pull_request_id ASC"
     )
-    val pullRequestsSorted2: LiveData<List<PullRequestWithCommit2>>
+    val pullRequestsSorted2: LiveData<List<NestedPullRequest2>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPullRequests(entity: List<PullRequestEntity>)
@@ -43,12 +43,12 @@ interface PullRequestDao {
 }
 
 //This approach fails because @Relation cannot easily double jump
-//class PullRequestWithCommit1(
+//class NestedPullRequest1(
 //        @Embedded val pullRequestEntity: PullRequestEntity,
 //        @Relation(parentColumn = "commitSha", entityColumn = "sha") val commit: CommitEntity,
 //        @Relation(parentColumn = "commit.user_id", entityColumn = "id") val user: UserEntity)
 
-class PullRequestWithCommit2(
+class NestedPullRequest2(
         @Embedded val pullRequestEntity: PullRequestEntity,
         @Embedded val commit: CommitEntity,
         @Embedded val user: UserEntity)

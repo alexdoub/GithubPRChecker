@@ -1,6 +1,7 @@
 package alex.com.githubchecker.components.app.api
 
-import alex.com.githubchecker.models.api.PullRequest
+import alex.com.githubchecker.models.api.PullRequestApiResponse
+import alex.com.githubchecker.models.room.entities.PullRequestEntity
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import okhttp3.Call
@@ -17,13 +18,13 @@ import java.io.IOException
 
 class APIClient(private val _client: OkHttpClient, private val _githubAPI: GithubAPI) {
 
-    fun getPullRequests(owner: String, repo: String): Observable<List<PullRequest>> {
+    fun getPullRequests(owner: String, repo: String): Observable<List<PullRequestApiResponse>> {
         return _githubAPI.getPullRequests(owner, repo)
     }
 
     //We cant use a standard API call for this, so we have to manually get the data
     //From the URL provided
-    fun getDiffForPullRequest(pullRequest: PullRequest): Observable<String> {
+    fun getDiffForPullRequest(pullRequest: PullRequestEntity): Observable<String> {
         val req = Request.Builder()
         req.url(pullRequest.diff_url!!)
         val publishSubject = PublishSubject.create<String>()

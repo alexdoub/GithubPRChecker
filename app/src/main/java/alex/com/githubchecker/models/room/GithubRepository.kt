@@ -1,8 +1,8 @@
 package alex.com.githubchecker.models.room
 
-import alex.com.githubchecker.models.api.PullRequest
+import alex.com.githubchecker.models.api.PullRequestApiResponse
 import alex.com.githubchecker.models.room.dao.PullRequestDao
-import alex.com.githubchecker.models.room.dao.PullRequestWithCommit2
+import alex.com.githubchecker.models.room.dao.NestedPullRequest2
 import alex.com.githubchecker.models.room.entities.CommitEntity
 import alex.com.githubchecker.models.room.entities.PullRequestEntity
 import alex.com.githubchecker.models.room.entities.UserEntity
@@ -20,7 +20,7 @@ class GithubRepository(application: Application) {
 
     private val PullRequestDao: PullRequestDao
     //    val allPullRequests: LiveData<List<PullRequestEntity>>
-    val allPullRequests2: LiveData<List<PullRequestWithCommit2>>
+    val allPullRequests2: LiveData<List<NestedPullRequest2>>
 
     init {
         val db = GithubDatabase.getDatabase(application)
@@ -30,7 +30,7 @@ class GithubRepository(application: Application) {
         allPullRequests2 = PullRequestDao.pullRequestsSorted2
     }
 
-    fun save(pullRequests: List<PullRequest>) {
+    fun save(pullRequests: List<PullRequestApiResponse>) {
         val commitEntities = ArrayList<CommitEntity>()
         val userEntities = ArrayList<UserEntity>()
         val pullRequestEntities = pullRequests.map { pullRequest ->
@@ -46,7 +46,7 @@ class GithubRepository(application: Application) {
             if (commitSha != null && userId != null) {
                 commitEntities.add(CommitEntity(commitSha, userId))
             } else {
-                Timber.e("A pull request did not have an associated sha or user with an ID. Skipping Commit")
+                Timber.e("A pull request did not have an associated sha or user with an ID. Skipping CommitApiResponse")
             }
 
             PullRequestEntity(pullRequest.id!!).apply {

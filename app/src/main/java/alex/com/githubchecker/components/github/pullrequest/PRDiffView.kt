@@ -2,7 +2,7 @@ package alex.com.githubchecker.components.github.pullrequest
 
 import alex.com.githubchecker.R
 import alex.com.githubchecker.models.Diff
-import alex.com.githubchecker.models.api.PullRequest
+import alex.com.githubchecker.models.room.entities.PullRequestEntity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +31,7 @@ constructor(private val activity: PRDiffActivity) {
         activity.additions_tv.setHorizontallyScrolling(true)
     }
 
-    internal fun bindPR(pullRequest: PullRequest) {
+    internal fun bindPR(pullRequest: PullRequestEntity) {
         activity.supportActionBar!!.title = activity.getString(R.string.activity_pr_diff, pullRequest.number)
     }
 

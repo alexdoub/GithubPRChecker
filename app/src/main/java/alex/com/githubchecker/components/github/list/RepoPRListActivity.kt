@@ -1,4 +1,4 @@
-package alex.com.githubchecker.components.github.repo
+package alex.com.githubchecker.components.github.list
 
 import alex.com.githubchecker.components.app.BaseActivity
 import alex.com.githubchecker.components.app.GithubCheckerApp

@@ -1,7 +1,7 @@
-package alex.com.githubchecker.components.github.repo.list
+package alex.com.githubchecker.components.github.list
 
 import alex.com.githubchecker.R
-import alex.com.githubchecker.models.api.PullRequest
+import alex.com.githubchecker.models.room.dao.NestedPullRequest2
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding2.view.RxView
@@ -22,16 +22,16 @@ class PRViewHolder(private val containerView: View, selectedPRSubject: PublishSu
         RxView.clicks(containerView).subscribe { click -> selectedPRSubject.onNext(_pullRequestNumber!!) }
     }
 
-    fun bind(pullRequest: PullRequest) {
+    fun bind(nestedPullRequest: NestedPullRequest2) {
 
-        _pullRequestNumber = pullRequest.number
+        _pullRequestNumber = nestedPullRequest.pullRequestEntity.number
 
-        val userLogin = pullRequest.head?.user?.login
-        val number = pullRequest.number
-        val createdAt = pullRequest.created_at
+        val userLogin = nestedPullRequest.user.login
+        val number = nestedPullRequest.pullRequestEntity.number
+        val createdAt = nestedPullRequest.pullRequestEntity.created_at
         val status = containerView.context.resources.getString(R.string.pr_content, number, createdAt, userLogin)
 
-        containerView.title.text = pullRequest.title
+        containerView.title.text = nestedPullRequest.pullRequestEntity.title
         containerView.status.text = status
     }
 }

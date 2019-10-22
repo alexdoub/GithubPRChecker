@@ -2,7 +2,7 @@ package alex.com.githubchecker.components.github.dagger
 
 import alex.com.githubchecker.components.app.dagger.AppComponent
 import alex.com.githubchecker.components.github.pullrequest.PRDiffActivity
-import alex.com.githubchecker.components.github.repo.RepoPRListActivity
+import alex.com.githubchecker.components.github.list.RepoPRListActivity
 import dagger.Component
 
 /**

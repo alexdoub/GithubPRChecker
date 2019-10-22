@@ -1,7 +1,7 @@
 package alex.com.githubchecker.components.github.pullrequest
 
-import alex.com.githubchecker.models.api.PullRequest
 import alex.com.githubchecker.models.dagger.GithubModel
+import alex.com.githubchecker.models.room.entities.PullRequestEntity
 import alex.com.githubchecker.utils.SchedulerUtils
 import io.reactivex.disposables.CompositeDisposable
 
@@ -18,12 +18,12 @@ internal class PRDiffPresenter(private val model: GithubModel, private val view:
                 model.getPullRequest(pullRequestId)
                         .observeOn(SchedulerUtils.main())
                         .subscribe { pullRequest ->
-                            view.bindPR(pullRequest)
-                            getDiffForPr(pullRequest)
+                            view.bindPR(pullRequest.pullRequestEntity)
+                            getDiffForPr(pullRequest.pullRequestEntity)
                         })
     }
 
-    private fun getDiffForPr(pullRequest: PullRequest) {
+    private fun getDiffForPr(pullRequest: PullRequestEntity) {
         view.showLoading(true)
         disposables.add(
                 model.getDiffForPr(pullRequest)
