@@ -38,7 +38,9 @@ class GithubRepository(application: Application) {
             val userId = pullRequest.head?.user?.id
             val commitSha = pullRequest.head?.sha
             if (userId != null) {
-                userEntities.add(UserEntity(userId))
+                userEntities.add(UserEntity(userId).apply {
+                    login = pullRequest.head.user.login
+                })
             } else {
                 Timber.e("A pull request did not have an associated userID. Skipping user")
             }
