@@ -24,14 +24,14 @@ class PRViewHolder(private val containerView: View, selectedPRSubject: PublishSu
 
     fun bind(nestedPullRequest: NestedPullRequest2) {
 
-        _pullRequestNumber = nestedPullRequest.pullRequestEntity.number
+        _pullRequestNumber = nestedPullRequest.pullRequest.number
 
         val userLogin = nestedPullRequest.user.login
-        val number = nestedPullRequest.pullRequestEntity.number
-        val createdAt = nestedPullRequest.pullRequestEntity.created_at
+        val number = nestedPullRequest.pullRequest.number
+        val createdAt = nestedPullRequest.pullRequest.created_at
         val status = containerView.context.resources.getString(R.string.pr_content, number, createdAt, userLogin)
 
-        containerView.title.text = nestedPullRequest.pullRequestEntity.title
+        containerView.title.text = nestedPullRequest.pullRequest.title
         containerView.status.text = status
     }
 }

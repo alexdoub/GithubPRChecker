@@ -18,8 +18,8 @@ internal class PRDiffPresenter(private val model: GithubModel, private val view:
                 model.getPullRequest(pullRequestId)
                         .observeOn(SchedulerUtils.main())
                         .subscribe { pullRequest ->
-                            view.bindPR(pullRequest.pullRequestEntity)
-                            getDiffForPr(pullRequest.pullRequestEntity)
+                            view.bindPR(pullRequest.pullRequest)
+                            getDiffForPr(pullRequest.pullRequest)
                         })
     }
 

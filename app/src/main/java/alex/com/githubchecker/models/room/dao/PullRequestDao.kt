@@ -44,12 +44,12 @@ interface PullRequestDao {
 
 //This approach fails because @Relation cannot easily double jump
 //class NestedPullRequest1(
-//        @Embedded val pullRequestEntity: PullRequestEntity,
+//        @Embedded val pullRequest: PullRequestEntity,
 //        @Relation(parentColumn = "commitSha", entityColumn = "sha") val commit: CommitEntity,
 //        @Relation(parentColumn = "commit.user_id", entityColumn = "id") val user: UserEntity)
 
 class NestedPullRequest2(
-        @Embedded val pullRequestEntity: PullRequestEntity,
+        @Embedded val pullRequest: PullRequestEntity,
         @Embedded val commit: CommitEntity,
         @Embedded val user: UserEntity)
 

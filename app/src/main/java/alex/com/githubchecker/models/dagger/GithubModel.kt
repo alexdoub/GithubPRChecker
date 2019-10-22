@@ -50,7 +50,7 @@ class GithubModel(application: Application, private val apiClient: APIClient, pr
     fun getPullRequest(number: Int?): Observable<NestedPullRequest2> {
         return pullRequestsSubject
                 .flatMapIterable { items -> items }
-                .filter { item -> item.pullRequestEntity.number!!.toInt() == number!!.toInt() }
+                .filter { item -> item.pullRequest.number!!.toInt() == number!!.toInt() }
     }
 
     fun getDiffForPr(pullRequest: PullRequestEntity): Observable<Diff> {
