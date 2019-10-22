@@ -2,6 +2,7 @@ package alex.com.githubchecker.models.room
 
 import alex.com.githubchecker.models.api.PullRequest
 import alex.com.githubchecker.models.room.dao.PullRequestDao
+import alex.com.githubchecker.models.room.dao.PullRequestWithCommit2
 import alex.com.githubchecker.models.room.entities.CommitEntity
 import alex.com.githubchecker.models.room.entities.PullRequestEntity
 import alex.com.githubchecker.models.room.entities.UserEntity
@@ -19,7 +20,7 @@ class GithubRepository(application: Application) {
 
     private val PullRequestDao: PullRequestDao
     //    val allPullRequests: LiveData<List<PullRequestEntity>>
-    val allPullRequests2: LiveData<List<PullRequestEntity>>
+    val allPullRequests2: LiveData<List<PullRequestWithCommit2>>
 
     init {
         val db = GithubDatabase.getDatabase(application)

@@ -4,10 +4,7 @@ import alex.com.githubchecker.models.room.entities.CommitEntity
 import alex.com.githubchecker.models.room.entities.PullRequestEntity
 import alex.com.githubchecker.models.room.entities.UserEntity
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 /**
  * The Room Magic is in this file, where you map a Java method call to an SQL query.
@@ -21,16 +18,16 @@ import androidx.room.Query
 @Dao
 interface PullRequestDao {
 
-    @get:Query("SELECT * from pullrequest_table ORDER BY id ASC")
-    val pullRequestsSorted: LiveData<List<PullRequestEntity>>
+//    @get:Query("SELECT * from pullrequest_table ORDER BY id ASC")
+//    val pullRequestsSorted1: LiveData<List<PullRequestWithCommit1>>
 
     @get:Query(
             "SELECT * from pullrequest_table " +
                     "INNER JOIN commit_table ON commit_table.sha = commitSha " +
-                    "INNER JOIN user_table ON user_table.id = userId " +
-                    "ORDER BY id ASC"
+                    "INNER JOIN user_table ON user_table.user_id = userId " +
+                    "ORDER BY pullrequest_table.pull_request_id ASC"
     )
-    val pullRequestsSorted2: LiveData<List<PullRequestEntity>>
+    val pullRequestsSorted2: LiveData<List<PullRequestWithCommit2>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPullRequests(entity: List<PullRequestEntity>)
@@ -45,9 +42,14 @@ interface PullRequestDao {
     fun deleteAll()
 }
 
-//public class PullRequestWIthCommit(@Embedded
-//                                   val pullRequestEntity: PullRequestEntity,
-//                                   @Relation(parentColumn = "id", entityColumn = "userId", entity = CommitEntity.class) a val commit: CommitEntity) {
-//
-//}
+//This approach fails because @Relation cannot easily double jump
+//class PullRequestWithCommit1(
+//        @Embedded val pullRequestEntity: PullRequestEntity,
+//        @Relation(parentColumn = "commitSha", entityColumn = "sha") val commit: CommitEntity,
+//        @Relation(parentColumn = "commit.user_id", entityColumn = "id") val user: UserEntity)
+
+class PullRequestWithCommit2(
+        @Embedded val pullRequestEntity: PullRequestEntity,
+        @Embedded val commit: CommitEntity,
+        @Embedded val user: UserEntity)
 

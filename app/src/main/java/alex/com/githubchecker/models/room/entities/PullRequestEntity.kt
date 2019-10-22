@@ -10,11 +10,11 @@ import androidx.room.Index
  */
 
 @Entity(tableName = "pullrequest_table",
-        primaryKeys = ["id"],
-        indices = [Index(value = ["id"], unique = true),
+        primaryKeys = ["pull_request_id"],
+        indices = [Index(value = ["pull_request_id"], unique = true),
             Index(value = ["commitSha"], unique = true)])
 class PullRequestEntity(@NonNull
-                        @ColumnInfo(name = "id")
+                        @ColumnInfo(name = "pull_request_id")
                         var id: Int) {
     var title: String? = null
     var number: Int? = null

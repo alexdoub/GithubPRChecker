@@ -20,7 +20,7 @@ import alex.com.githubchecker.models.room.entities.UserEntity;
 @Database(entities = {
         PullRequestEntity.class,
         CommitEntity.class,
-        UserEntity.class}, version = 7)
+        UserEntity.class}, version = 8)
 public abstract class GithubDatabase extends RoomDatabase {
 
     public abstract PullRequestDao pullRequestDao();
