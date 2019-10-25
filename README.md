@@ -2,7 +2,7 @@
 
 This app lets you check the line-by-line code difference in a pull request.
 
-The project is designed with Dagger 2, RxJava, Rooom (DB) & MVP paradigms. 
+The project is designed with Dagger 2, RxJava, Rooom Database & MVP paradigms. 
 
 ## Current Work In Progress ##
 I just added Room DB so the next step is refactoring and cleaning up
