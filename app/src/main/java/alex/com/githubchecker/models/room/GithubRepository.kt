@@ -2,7 +2,7 @@ package alex.com.githubchecker.models.room
 
 import alex.com.githubchecker.models.api.PullRequestApiResponse
 import alex.com.githubchecker.models.room.dao.PullRequestDao
-import alex.com.githubchecker.models.room.dao.NestedPullRequest2
+import alex.com.githubchecker.models.room.dao.NestedPullRequest
 import alex.com.githubchecker.models.room.entities.CommitEntity
 import alex.com.githubchecker.models.room.entities.PullRequestEntity
 import alex.com.githubchecker.models.room.entities.UserEntity
@@ -19,15 +19,13 @@ import timber.log.Timber
 class GithubRepository(application: Application) {
 
     private val PullRequestDao: PullRequestDao
-    //    val allPullRequests: LiveData<List<PullRequestEntity>>
-    val allPullRequests2: LiveData<List<NestedPullRequest2>>
+    val allPullRequests: LiveData<List<NestedPullRequest>>
 
     init {
         val db = GithubDatabase.getDatabase(application)
 
         PullRequestDao = db.pullRequestDao()
-//        allPullRequests = PullRequestDao.pullRequestsSorted
-        allPullRequests2 = PullRequestDao.pullRequestsSorted2
+        allPullRequests = PullRequestDao.pullRequestsSorted
     }
 
     fun save(pullRequests: List<PullRequestApiResponse>) {

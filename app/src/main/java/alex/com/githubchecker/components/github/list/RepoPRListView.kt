@@ -2,7 +2,7 @@ package alex.com.githubchecker.components.github.list
 
 import alex.com.githubchecker.R
 import alex.com.githubchecker.models.dagger.GithubModel
-import alex.com.githubchecker.models.room.dao.NestedPullRequest2
+import alex.com.githubchecker.models.room.dao.NestedPullRequest
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,7 +40,7 @@ constructor(val activity: RepoPRListActivity) {
         activity.supportActionBar!!.title = activity.getString(R.string.activity_pull_requests, model.repo, model.owner)
     }
 
-    internal fun bindPRList(pullRequests: List<NestedPullRequest2>) {
+    internal fun bindPRList(pullRequests: List<NestedPullRequest>) {
         showLoading(false)
         adapter.setPullrequestItems(pullRequests)
     }

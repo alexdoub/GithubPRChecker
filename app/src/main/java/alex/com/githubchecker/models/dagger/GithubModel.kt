@@ -6,7 +6,7 @@ import alex.com.githubchecker.components.app.data.SessionDataManager
 import alex.com.githubchecker.models.Diff
 import alex.com.githubchecker.models.DiffParser
 import alex.com.githubchecker.models.room.GithubRepository
-import alex.com.githubchecker.models.room.dao.NestedPullRequest2
+import alex.com.githubchecker.models.room.dao.NestedPullRequest
 import alex.com.githubchecker.models.room.entities.PullRequestEntity
 import alex.com.githubchecker.utils.SchedulerUtils
 import android.app.Application
@@ -22,7 +22,7 @@ import io.reactivex.subjects.PublishSubject
  */
 
 class GithubModel(application: Application, private val apiClient: APIClient, private val sessionDataManager: SessionDataManager) {
-    val pullRequestsSubject: BehaviorSubject<List<NestedPullRequest2>> = BehaviorSubject.create()
+    val pullRequestsSubject: BehaviorSubject<List<NestedPullRequest>> = BehaviorSubject.create()
     private val disposables = CompositeDisposable()
     private val repository = GithubRepository(application)
 
@@ -34,7 +34,7 @@ class GithubModel(application: Application, private val apiClient: APIClient, pr
 
     init {
         // Observe DB, produce models
-        repository.allPullRequests2.observeForever(Observer{
+        repository.allPullRequests.observeForever(Observer {
             pullRequestsSubject.onNext(it)
         })
     }
@@ -47,7 +47,7 @@ class GithubModel(application: Application, private val apiClient: APIClient, pr
                 })
     }
 
-    fun getPullRequest(number: Int?): Observable<NestedPullRequest2> {
+    fun getPullRequest(number: Int?): Observable<NestedPullRequest> {
         return pullRequestsSubject
                 .flatMapIterable { items -> items }
                 .filter { item -> item.pullRequest.number!!.toInt() == number!!.toInt() }

@@ -1,7 +1,7 @@
 package alex.com.githubchecker.components.github.list
 
 import alex.com.githubchecker.R
-import alex.com.githubchecker.models.room.dao.NestedPullRequest2
+import alex.com.githubchecker.models.room.dao.NestedPullRequest
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -13,9 +13,9 @@ import java.util.ArrayList
  */
 
 class PRListAdapter(private val selectedPRSubject: PublishSubject<Int>) : RecyclerView.Adapter<PRViewHolder>() {
-    private val pullrequestItems = ArrayList<NestedPullRequest2>()
+    private val pullrequestItems = ArrayList<NestedPullRequest>()
 
-    fun setPullrequestItems(pullrequestItems: List<NestedPullRequest2>) {
+    fun setPullrequestItems(pullrequestItems: List<NestedPullRequest>) {
         this.pullrequestItems.clear()
         this.pullrequestItems.addAll(pullrequestItems)
         notifyDataSetChanged()

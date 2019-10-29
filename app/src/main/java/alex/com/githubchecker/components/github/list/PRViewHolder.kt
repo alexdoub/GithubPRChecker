@@ -1,7 +1,7 @@
 package alex.com.githubchecker.components.github.list
 
 import alex.com.githubchecker.R
-import alex.com.githubchecker.models.room.dao.NestedPullRequest2
+import alex.com.githubchecker.models.room.dao.NestedPullRequest
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding2.view.RxView
@@ -22,7 +22,7 @@ class PRViewHolder(private val containerView: View, selectedPRSubject: PublishSu
         RxView.clicks(containerView).subscribe { click -> selectedPRSubject.onNext(_pullRequestNumber!!) }
     }
 
-    fun bind(nestedPullRequest: NestedPullRequest2) {
+    fun bind(nestedPullRequest: NestedPullRequest) {
 
         _pullRequestNumber = nestedPullRequest.pullRequest.number
 

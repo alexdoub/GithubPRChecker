@@ -18,16 +18,16 @@ import androidx.room.*
 @Dao
 interface PullRequestDao {
 
-//    @get:Query("SELECT * from pullrequest_table ORDER BY id ASC")
-//    val pullRequestsSorted1: LiveData<List<NestedPullRequest1>>
-
     @get:Query(
             "SELECT * from pullrequest_table " +
                     "INNER JOIN commit_table ON commit_table.sha = pullrequest_table.commitSha " +
                     "INNER JOIN user_table ON user_table.user_id = commit_table.userId " +
                     "ORDER BY pullrequest_table.pull_request_id ASC"
     )
-    val pullRequestsSorted2: LiveData<List<NestedPullRequest2>>
+    val pullRequestsSorted: LiveData<List<NestedPullRequest>>
+
+    //    @get:Query("SELECT * from pullrequest_table ORDER BY id ASC")
+//    val pullRequestsSorted1: LiveData<List<NestedPullRequest1>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPullRequests(entity: List<PullRequestEntity>)
@@ -48,7 +48,7 @@ interface PullRequestDao {
 //        @Relation(parentColumn = "commitSha", entityColumn = "sha") val commit: CommitEntity,
 //        @Relation(parentColumn = "commit.user_id", entityColumn = "id") val user: UserEntity)
 
-class NestedPullRequest2(
+class NestedPullRequest(
         @Embedded val pullRequest: PullRequestEntity,
         @Embedded val commit: CommitEntity,
         @Embedded val user: UserEntity)
