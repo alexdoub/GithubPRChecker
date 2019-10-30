@@ -18,7 +18,6 @@ class PRViewHolder(private val containerView: View, selectedPRSubject: PublishSu
     private var _pullRequestNumber: Int? = null
 
     init {
-        //@@TODO: dispose
         RxView.clicks(containerView).subscribe { click -> selectedPRSubject.onNext(_pullRequestNumber!!) }
     }
 

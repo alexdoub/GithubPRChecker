@@ -4,7 +4,11 @@ import alex.com.githubchecker.models.room.entities.CommitEntity
 import alex.com.githubchecker.models.room.entities.PullRequestEntity
 import alex.com.githubchecker.models.room.entities.UserEntity
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Embedded
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 
 /**
  * The Room Magic is in this file, where you map a Java method call to an SQL query.

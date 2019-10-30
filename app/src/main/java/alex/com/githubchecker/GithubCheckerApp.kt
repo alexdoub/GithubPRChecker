@@ -1,13 +1,13 @@
-package alex.com.githubchecker.components.app
+package alex.com.githubchecker
 
-import alex.com.githubchecker.components.app.dagger.AppComponent
-import alex.com.githubchecker.components.app.dagger.AppModule
+import alex.com.githubchecker.components.app.AppComponent
+import alex.com.githubchecker.components.app.AppModule
+import alex.com.githubchecker.components.app.api.NetworkModule
 import alex.com.githubchecker.components.app.dagger.DaggerAppComponent
-import alex.com.githubchecker.components.app.dagger.DataModule
-import alex.com.githubchecker.components.app.dagger.NetworkModule
+import alex.com.githubchecker.components.app.data.DataModule
+import alex.com.githubchecker.components.github.GithubComponent
+import alex.com.githubchecker.components.github.GithubModule
 import alex.com.githubchecker.components.github.dagger.DaggerGithubComponent
-import alex.com.githubchecker.components.github.dagger.GithubComponent
-import alex.com.githubchecker.components.github.dagger.GithubModule
 import android.app.Application
 import com.facebook.stetho.Stetho
 import timber.log.Timber

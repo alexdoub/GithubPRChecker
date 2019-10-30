@@ -1,7 +1,7 @@
 package alex.com.githubchecker.models
 
+import alex.com.githubchecker.GithubCheckerApp
 import alex.com.githubchecker.R
-import alex.com.githubchecker.components.app.GithubCheckerApp
 import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableStringBuilder

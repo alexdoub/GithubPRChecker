@@ -1,8 +1,8 @@
 package alex.com.githubchecker.components.github.pullrequest
 
-import alex.com.githubchecker.components.app.BaseActivity
-import alex.com.githubchecker.components.app.GithubCheckerApp
-import alex.com.githubchecker.models.dagger.GithubModel
+import alex.com.githubchecker.GithubCheckerApp
+import alex.com.githubchecker.components.app.base.BaseActivity
+import alex.com.githubchecker.components.github.GithubModel
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle

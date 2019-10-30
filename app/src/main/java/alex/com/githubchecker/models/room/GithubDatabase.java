@@ -5,7 +5,6 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.room.migration.Migration;
 
 import alex.com.githubchecker.models.room.dao.PullRequestDao;
 import alex.com.githubchecker.models.room.entities.CommitEntity;

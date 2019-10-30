@@ -1,4 +1,4 @@
-package alex.com.githubchecker.components.app.dagger
+package alex.com.githubchecker.components.app
 
 import javax.inject.Scope
 

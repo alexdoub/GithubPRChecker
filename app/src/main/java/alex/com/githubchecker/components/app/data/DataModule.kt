@@ -1,6 +1,5 @@
-package alex.com.githubchecker.components.app.dagger
+package alex.com.githubchecker.components.app.data
 
-import alex.com.githubchecker.components.app.data.SessionDataManager
 import alex.com.githubchecker.config.Constants
 import android.content.Context
 import android.content.SharedPreferences

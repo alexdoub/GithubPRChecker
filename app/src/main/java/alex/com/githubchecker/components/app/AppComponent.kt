@@ -1,6 +1,8 @@
-package alex.com.githubchecker.components.app.dagger
+package alex.com.githubchecker.components.app
 
 import alex.com.githubchecker.components.app.api.APIClient
+import alex.com.githubchecker.components.app.api.NetworkModule
+import alex.com.githubchecker.components.app.data.DataModule
 import alex.com.githubchecker.components.app.data.SessionDataManager
 import android.app.Application
 import android.content.Context

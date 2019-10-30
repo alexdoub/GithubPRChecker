@@ -1,8 +1,8 @@
 package alex.com.githubchecker.models.room
 
 import alex.com.githubchecker.models.api.PullRequestApiResponse
-import alex.com.githubchecker.models.room.dao.PullRequestDao
 import alex.com.githubchecker.models.room.dao.NestedPullRequest
+import alex.com.githubchecker.models.room.dao.PullRequestDao
 import alex.com.githubchecker.models.room.entities.CommitEntity
 import alex.com.githubchecker.models.room.entities.PullRequestEntity
 import alex.com.githubchecker.models.room.entities.UserEntity

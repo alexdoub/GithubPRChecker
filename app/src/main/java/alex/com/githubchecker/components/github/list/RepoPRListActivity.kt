@@ -1,8 +1,8 @@
 package alex.com.githubchecker.components.github.list
 
-import alex.com.githubchecker.components.app.BaseActivity
-import alex.com.githubchecker.components.app.GithubCheckerApp
-import alex.com.githubchecker.models.dagger.GithubModel
+import alex.com.githubchecker.GithubCheckerApp
+import alex.com.githubchecker.components.app.base.BaseActivity
+import alex.com.githubchecker.components.github.GithubModel
 import android.os.Bundle
 import javax.inject.Inject
 

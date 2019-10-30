@@ -1,7 +1,5 @@
-package alex.com.githubchecker.components.app.dagger
+package alex.com.githubchecker.components.app.api
 
-import alex.com.githubchecker.components.app.api.APIClient
-import alex.com.githubchecker.components.app.api.GithubAPI
 import alex.com.githubchecker.config.Constants
 import alex.com.githubchecker.utils.SchedulerUtils
 import com.facebook.stetho.okhttp3.StethoInterceptor

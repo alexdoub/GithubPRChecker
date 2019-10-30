@@ -1,6 +1,6 @@
-package alex.com.githubchecker.models.dagger
+package alex.com.githubchecker.components.github
 
-import alex.com.githubchecker.components.app.GithubCheckerApp
+import alex.com.githubchecker.GithubCheckerApp
 import alex.com.githubchecker.components.app.api.APIClient
 import alex.com.githubchecker.components.app.data.SessionDataManager
 import alex.com.githubchecker.models.Diff

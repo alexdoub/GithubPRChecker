@@ -1,6 +1,6 @@
 package alex.com.githubchecker.components.github.pullrequest
 
-import alex.com.githubchecker.models.dagger.GithubModel
+import alex.com.githubchecker.components.github.GithubModel
 import alex.com.githubchecker.models.room.entities.PullRequestEntity
 import alex.com.githubchecker.utils.SchedulerUtils
 import io.reactivex.disposables.CompositeDisposable

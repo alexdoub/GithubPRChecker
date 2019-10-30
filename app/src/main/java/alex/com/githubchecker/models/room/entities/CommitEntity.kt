@@ -1,9 +1,11 @@
 package alex.com.githubchecker.models.room.entities
 
 import androidx.annotation.NonNull
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
-import com.google.gson.annotations.SerializedName
+import androidx.room.Index
+import androidx.room.PrimaryKey
 
 /**
  * Created by Alex on 11/17/2017.

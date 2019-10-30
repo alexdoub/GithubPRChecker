@@ -1,7 +1,7 @@
 package alex.com.githubchecker.components.github.list
 
 import alex.com.githubchecker.R
-import alex.com.githubchecker.models.dagger.GithubModel
+import alex.com.githubchecker.components.github.GithubModel
 import alex.com.githubchecker.models.room.dao.NestedPullRequest
 import android.view.LayoutInflater
 import android.view.View

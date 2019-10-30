@@ -1,4 +1,4 @@
-package alex.com.githubchecker.components.app
+package alex.com.githubchecker.components.app.base
 
 import alex.com.githubchecker.BuildConfig
 import android.content.Context
@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
  * Created by Alex on 11/17/2017.
  */
 
+//@@TODO: Move to debug
 abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstance: Bundle?) {

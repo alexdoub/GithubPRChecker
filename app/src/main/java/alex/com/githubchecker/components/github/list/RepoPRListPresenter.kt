@@ -1,7 +1,7 @@
 package alex.com.githubchecker.components.github.list
 
+import alex.com.githubchecker.components.github.GithubModel
 import alex.com.githubchecker.components.github.pullrequest.PRDiffActivity
-import alex.com.githubchecker.models.dagger.GithubModel
 import alex.com.githubchecker.utils.SchedulerUtils
 import io.reactivex.disposables.CompositeDisposable
 
