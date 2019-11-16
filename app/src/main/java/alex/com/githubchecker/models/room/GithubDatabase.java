@@ -27,7 +27,7 @@ public abstract class GithubDatabase extends RoomDatabase {
     // marking the instance as volatile to ensure atomic access to the variable
     private static volatile GithubDatabase INSTANCE;
 
-    static GithubDatabase getDatabase(final Context context) {
+    public static GithubDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (GithubDatabase.class) {
                 if (INSTANCE == null) {
